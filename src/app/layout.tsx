@@ -17,6 +17,9 @@ export const metadata: Metadata = {
   title: "Mohibur Rahman Sani (Farabi Sunny) | Portfolio",
   description:
     "Portfolio of Mohibur Rahman Sani (Farabi Sunny) - a Computer Science graduate and Full Stack Developer specializing in Software Engineering.",
+  verification: {
+    google: "KBn27Y9b8tT44SSx066-jAOr4f_lPAMwBtNFiUjkYzU",
+  },
 };
 
 export default function RootLayout({
