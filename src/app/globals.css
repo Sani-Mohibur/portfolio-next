@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: white;
+  --color-foreground: #111827;
+}
+
+@variant dark (&:where(.dark, .dark *));
+
+html {
+  scroll-behavior: smooth;
+}
+
+.dark {
+  --color-background: #0d1117;
+  --color-foreground: #f3f4f6;
+}
