@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     siteName: "Mohibur Rahman Sani Portfolio",
     images: [
       {
-        url: "/opengraph-image.png", // Make sure this matches your image filename exactly!
+        url: "https://sani-mohibur.netlify.app/opengraph-image.png", // Make sure this matches your image filename exactly!
         width: 1200,
         height: 630,
         alt: "Mohibur Rahman Sani Portfolio Preview",
