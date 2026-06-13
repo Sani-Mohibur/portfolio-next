@@ -17,6 +17,23 @@ export const metadata: Metadata = {
   title: "Mohibur Rahman Sani (Farabi Sunny) | Portfolio",
   description:
     "Portfolio of Mohibur Rahman Sani (Farabi Sunny) - a Computer Science graduate and Full Stack Developer specializing in Software Engineering.",
+  openGraph: {
+    title: "Mohibur Rahman Sani (Farabi Sunny) | Portfolio",
+    description:
+      "Portfolio of Mohibur Rahman Sani (Farabi Sunny) - a Computer Science graduate and Full Stack Developer specializing in Software Engineering.",
+    url: "https://sani-mohibur.netlify.app",
+    siteName: "Mohibur Rahman Sani Portfolio",
+    images: [
+      {
+        url: "/opengraph-image.png", // Make sure this matches your image filename exactly!
+        width: 1200,
+        height: 630,
+        alt: "Mohibur Rahman Sani Portfolio Preview",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
   verification: {
     google: "KBn27Y9b8tT44SSx066-jAOr4f_lPAMwBtNFiUjkYzU",
   },
