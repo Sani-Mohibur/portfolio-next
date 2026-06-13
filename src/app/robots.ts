@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: "/private/", // Block private folders if you have any later
     },
-    sitemap: "https://yourdomain.com/sitemap.xml", // Replace with your live URL later
+    sitemap: "https://sani-mohibur.netlify.app/sitemap.xml", // Replace with your live URL later
   };
 }

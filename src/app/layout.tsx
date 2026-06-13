@@ -13,6 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://sani-mohibur.netlify.app"),
   title: "Mohibur Rahman Sani (Farabi Sunny) | Portfolio",
   description:
     "Portfolio of Mohibur Rahman Sani (Farabi Sunny) - a Computer Science graduate and Full Stack Developer specializing in Software Engineering.",
