@@ -14,13 +14,13 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://sani-mohibur.netlify.app"),
-  title: "Mohibur Rahman Sani (Farabi Sunny) | Portfolio",
+  title: "Mohibur Rahman Sani | Portfolio",
   description:
-    "Portfolio of Mohibur Rahman Sani (Farabi Sunny) - a Computer Science graduate and Full Stack Developer specializing in Software Engineering.",
+    "Portfolio of Mohibur Rahman Sani - a Computer Science graduate and Full Stack Developer specializing in Software Engineering.",
   openGraph: {
-    title: "Mohibur Rahman Sani (Farabi Sunny) | Portfolio",
+    title: "Mohibur Rahman Sani | Portfolio",
     description:
-      "Portfolio of Mohibur Rahman Sani (Farabi Sunny) - a Computer Science graduate and Full Stack Developer specializing in Software Engineering.",
+      "Portfolio of Mohibur Rahman Sani - a Computer Science graduate and Full Stack Developer specializing in Software Engineering.",
     url: "https://sani-mohibur.netlify.app",
     siteName: "Mohibur Rahman Sani Portfolio",
     images: [
