@@ -25,6 +25,8 @@ PORTFOLIO DATA:
 ## About
 - **Name**: ${data.personal.name}
 - **Title**: ${data.personal.title}
+- **Tagline**: ${data.personal.tagline}
+- **Intro**: ${data.personal.intro}
 - **Education**: ${data.personal.education}
 - **Location**: ${data.personal.location}
 - **Bio**: ${data.personal.about}
@@ -36,16 +38,31 @@ PORTFOLIO DATA:
 - **GitHub**: ${data.contact.github}
 - **Website**: ${data.contact.website}
 
+## Experience
+${data.experience.map(e => `### ${e.role} at ${e.company}
+- **Duration**: ${e.duration}
+- **Location**: ${e.location}
+- **Responsibilities**:
+${e.responsibilities.map(r => `  - ${r}`).join('\n')}
+`).join('\n')}
+
+## Education
+${data.education.map(e => `### ${e.degree}
+- **Institution**: ${e.institution}
+- **Score**: ${e.score}
+`).join('\n')}
+
 ## Skills
-### Programming Languages
+### Languages
 ${data.skills.languages.join(", ")}
-
-### Web Stack (Frontend & Backend)
-${data.skills.webStack.join(", ")}
-
+### Frontend
+${data.skills.frontend.join(", ")}
+### Backend
+${data.skills.backend.join(", ")}
+### Security
+${data.skills.security.join(", ")}
 ### Databases & ORMs
 ${data.skills.databases.join(", ")}
-
 ### Tools & Process
 ${data.skills.tools.join(", ")}
 
@@ -54,8 +71,10 @@ ${data.projects
     .map(
       (p) => `### ${p.title}
 - **Description**: ${p.description}
+- **Features**:
+${p.features.map(f => `  - ${f}`).join('\n')}
 - **Technologies**: ${p.technologies.join(", ")}
-- **GitHub**: ${p.github}${p.live ? `\n- **Live Demo**: ${p.live}` : ""}`
+${"githubFrontend" in p ? `- **Frontend Code**: ${p.githubFrontend}\n` : ""}${"githubBackend" in p ? `- **Backend Code**: ${p.githubBackend}\n` : ""}${p.live ? `- **Live Demo**: ${p.live}` : ""}`
     )
     .join("\n\n")}
 

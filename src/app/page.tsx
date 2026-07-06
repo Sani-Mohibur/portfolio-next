@@ -10,6 +10,7 @@ import FadeInSection from "./components/FadeInSection";
 import Footer from "./components/Footer";
 import { ThemeProvider } from "./components/ThemeContext";
 import ChatButton from "./components/chat/ChatButton";
+import BackToTop from "./components/BackToTop";
 
 export default function Home() {
   return (
@@ -34,6 +35,7 @@ export default function Home() {
       </main>
       <Footer />
       <ChatButton />
+      <BackToTop />
     </ThemeProvider>
   );
 }

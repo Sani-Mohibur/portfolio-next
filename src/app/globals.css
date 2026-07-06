@@ -3,17 +3,33 @@
 @theme {
   --color-background: white;
   --color-foreground: #111827;
+  
+  /* Premium Shadows */
+  --shadow-premium: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+  --shadow-premium-hover: 0 20px 40px -15px rgba(0, 0, 0, 0.15);
+  
+  /* Premium Dark Mode Shadows */
+  --shadow-premium-dark: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  --shadow-premium-dark-hover: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
 }
 
 @variant dark (&:where(.dark, .dark *));
 
 html {
   scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .dark {
-  --color-background: #0d1117;
-  --color-foreground: #f3f4f6;
+  --color-background: #0d1117; /* GitHub Dark Dimmed background */
+  --color-foreground: #f3f4f6; /* Gray 100 */
 }
 
 /* Chat markdown styles */
