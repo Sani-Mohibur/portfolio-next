@@ -1,14 +1,14 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { portfolioData } from "../lib/portfolio-data";
 import { GithubIcon as Github, LinkedinIcon as Linkedin, DownloadIcon as Download, MailIcon as Mail, TerminalIcon as Terminal, DatabaseIcon as Database, ServerIcon as Server } from "./icons";
 
 export default function Hero() {
   const { personal, contact, resume } = portfolioData;
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -19,7 +19,7 @@ export default function Hero() {
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
   };
