@@ -9,6 +9,7 @@ import Contact from "./components/Contact";
 import FadeInSection from "./components/FadeInSection";
 import Footer from "./components/Footer";
 import { ThemeProvider } from "./components/ThemeContext";
+import ChatButton from "./components/chat/ChatButton";
 
 export default function Home() {
   return (
@@ -32,6 +33,7 @@ export default function Home() {
         </FadeInSection>
       </main>
       <Footer />
+      <ChatButton />
     </ThemeProvider>
   );
 }
