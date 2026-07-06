@@ -1,149 +1,174 @@
-import React from "react";
+"use client";
 
-interface ProjectItem {
-  title: string;
-  github: string;
-  live: string;
-  image: string;
-  description: string;
-  tech: string[];
-}
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { portfolioData } from "../lib/portfolio-data";
+import { GithubIcon } from "./icons";
 
-export default function Projects() {
-  const projects: ProjectItem[] = [
-    {
-      title: "Mental Health Tracker",
-      github: "https://github.com/Sani-Mohibur/mental-health-tracker",
-      live: "https://mental-health-tracker-two.vercel.app/",
-      image: "mental.png",
-      description:
-        "A responsive mental wellness platform for tracking moods, journaling thoughts, and practicing guided self-care.",
-      tech: ["React", "Tailwind", "Vite", "React Router"],
-    },
-    {
-      title: "HireMe API",
-      github: "https://github.com/Sani-Mohibur/hireme-api",
-      live: "",
-      image: "hireme.png",
-      description:
-        "Scalable backend for a job portal supporting recruiters and job seekers with secure workflows.",
-      tech: ["TypeScript", "Express", "MongoDB", "Zod"],
-    },
-    {
-      title: "Real-Time Chat App",
-      github: "https://github.com/Sani-Mohibur/chat-backend",
-      live: "",
-      image: "chat.png",
-      description:
-        "Real-time chat system with instant messaging and synchronization across clients.",
-      tech: ["Node.js", "Socket.IO", "Express"],
-    },
-    {
-      title: "Ecommerce API",
-      github: "https://github.com/Sani-Mohibur/chat-backend",
-      live: "",
-      image: "ecommerce.png",
-      description:
-        "REST API for ecommerce platform handling products, carts, and authentication.",
-      tech: ["Node.js", "Express", "MongoDB", "JWT"],
-    },
-  ];
+// SVG for external link (Live Demo)
+const ExternalLinkIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+    <polyline points="15 3 21 3 21 9" />
+    <line x1="10" x2="21" y1="14" y2="3" />
+  </svg>
+);
+
+// Mock placeholders for the carousel as requested
+const generatePlaceholders = (seed: number) => [
+  `https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=600&h=400&sig=${seed}1`,
+  `https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600&h=400&sig=${seed}2`,
+  `https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=600&h=400&sig=${seed}3`
+];
+
+const ProjectCard = ({ project, index }: { project: any; index: number }) => {
+  const images = generatePlaceholders(index);
+  const [currentImage, setCurrentImage] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Auto cycle images only when hovered
+  React.useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isHovered) {
+      interval = setInterval(() => {
+        setCurrentImage((prev) => (prev + 1) % images.length);
+      }, 2000);
+    }
+    return () => clearInterval(interval);
+  }, [isHovered, images.length]);
 
   return (
-    <section id="projects" className="py-20">
-      <h2 className="text-3xl font-bold mb-12 text-center dark:text-white">
-        Projects
-      </h2>
-
-      <div className="grid md:grid-cols-2 gap-8">
-        {projects.map((project, index) => (
-          <div
-            key={index}
-            className="group relative rounded-2xl overflow-hidden shadow-lg"
-          >
-            {/* Image */}
-            <img
-              src={project.image}
-              alt={project.title}
-              className="w-full h-64 object-cover transform transition duration-500 ease-out group-hover:scale-110"
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      className="bg-white dark:bg-gray-900 rounded-3xl overflow-hidden shadow-[var(--shadow-premium)] dark:shadow-[var(--shadow-premium-dark)] border border-gray-100 dark:border-gray-800 flex flex-col h-full"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        setCurrentImage(0); // Reset on leave
+      }}
+    >
+      {/* Image Carousel */}
+      <div className="relative w-full h-[240px] sm:h-[300px] overflow-hidden bg-gray-200 dark:bg-gray-800">
+        <AnimatePresence initial={false}>
+          <motion.img
+            key={currentImage}
+            src={images[currentImage]}
+            alt={`${project.title} screenshot`}
+            initial={{ opacity: 0, scale: 1.05 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        </AnimatePresence>
+        
+        {/* Carousel indicators */}
+        <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5 z-10">
+          {images.map((_, idx) => (
+            <div
+              key={idx}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                idx === currentImage ? "bg-indigo-500 w-4" : "bg-white/60 w-1.5"
+              }`}
             />
-
-            {/* Base Gradient (always visible) */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
-
-            {/* Always visible title */}
-            <div className="absolute bottom-0 p-4 text-white">
-              <h3 className="text-lg font-semibold">{project.title}</h3>
-            </div>
-
-            {/* Hover / Expanded Content */}
-            <div className="absolute inset-0 p-6 flex flex-col justify-end bg-black/80 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition duration-300 text-white">
-              <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
-
-              <p className="text-sm mb-3">{project.description}</p>
-
-              {/* Tech */}
-              <div className="flex flex-wrap gap-2 mb-3">
-                {project.tech.map((t, i) => (
-                  <span
-                    key={i}
-                    className="text-xs bg-white/20 px-2 py-1 rounded"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-
-              {/* Links */}
-              <div className="flex gap-4">
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1 text-sm hover:underline"
-                >
-                  <svg
-                    className="w-4 h-4"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.061.069-.061 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.27.098-2.65 0 0 .84-.27 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12c0-5.523-4.477-10-10-10z"
-                    />
-                  </svg>
-                  Code
-                </a>
-
-                {project.live && (
-                  <a
-                    href={project.live}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1 text-sm hover:underline"
-                  >
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                      />
-                    </svg>
-                    Live
-                  </a>
-                )}
-              </div>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
+
+      {/* Content */}
+      <div className="p-6 sm:p-8 flex flex-col flex-grow">
+        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+          {project.title}
+        </h3>
+        
+        <p className="text-gray-600 dark:text-gray-400 mb-6 line-clamp-3">
+          {project.description}
+        </p>
+
+        {/* Tech Stack */}
+        <div className="flex flex-wrap gap-2 mb-8 mt-auto">
+          {project.technologies.map((tech: string, i: number) => (
+            <span
+              key={i}
+              className="text-xs font-medium px-2.5 py-1 rounded-md bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300 border border-indigo-100 dark:border-indigo-800/50"
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex flex-wrap gap-3">
+          {project.live && (
+            <a
+              href={project.live}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 flex justify-center items-center gap-2 py-2.5 rounded-xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-medium hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
+            >
+              <ExternalLinkIcon className="w-4 h-4" />
+              Live Demo
+            </a>
+          )}
+          
+          {(project.githubFrontend || project.githubBackend) && (
+            <a
+              href={project.githubFrontend || project.githubBackend}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 flex justify-center items-center gap-2 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+            >
+              <GithubIcon className="w-4 h-4" />
+              Source
+            </a>
+          )}
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+export default function Projects() {
+  const { projects } = portfolioData;
+  const [visibleCount, setVisibleCount] = useState(2); // Show 2 initially
+
+  const visibleProjects = projects.slice(0, visibleCount);
+  const hasMore = visibleCount < projects.length;
+
+  return (
+    <section id="projects" className="py-20 lg:py-28 relative">
+      <div className="flex flex-col items-center justify-center mb-16 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+          Featured Projects
+        </h2>
+        <div className="w-20 h-1.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full" />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+        <AnimatePresence mode="popLayout">
+          {visibleProjects.map((project, index) => (
+            <ProjectCard key={project.title} project={project} index={index} />
+          ))}
+        </AnimatePresence>
+      </div>
+
+      {hasMore && (
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="flex justify-center mt-12"
+        >
+          <button
+            onClick={() => setVisibleCount((prev) => Math.min(prev + 2, projects.length))}
+            className="px-8 py-3 rounded-xl bg-white dark:bg-gray-900 border-2 border-indigo-500 text-indigo-600 dark:text-indigo-400 font-semibold hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors shadow-sm"
+          >
+            Load More Projects
+          </button>
+        </motion.div>
+      )}
     </section>
   );
 }
