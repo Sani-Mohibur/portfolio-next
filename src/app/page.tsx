@@ -8,6 +8,7 @@ import Experience from "./components/Experience";
 import Projects from "./components/Projects";
 import Resume from "./components/Resume";
 import Contact from "./components/Contact";
+import AIPromo from "./components/AIPromo";
 import FadeInSection from "./components/FadeInSection";
 import Footer from "./components/Footer";
 import { ThemeProvider } from "./components/ThemeContext";
@@ -34,6 +35,9 @@ export default function Home() {
         </FadeInSection>
         <FadeInSection>
           <Resume />
+        </FadeInSection>
+        <FadeInSection>
+          <AIPromo />
         </FadeInSection>
         <FadeInSection>
           <Contact />
