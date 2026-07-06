@@ -1,6 +1,7 @@
 "use client";
 
 import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
 import About from "./components/About";
 import Skills from "./components/Skills";
 import Projects from "./components/Projects";
@@ -16,7 +17,8 @@ export default function Home() {
   return (
     <ThemeProvider>
       <Navbar />
-      <main className="max-w-5xl mx-auto p-4">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6">
+        <Hero />
         <FadeInSection>
           <About />
         </FadeInSection>
