@@ -20,45 +20,336 @@ export const portfolioData = {
     twitter: "https://x.com/sanimohibur",
   },
 
-  skills: {
-    languages: ["TypeScript", "JavaScript", "C++", "Java", "C#", "Go (Golang)"],
-    frontend: [
-      "Next.js",
-      "React.js",
-      "Tailwind CSS",
-      "Redux Toolkit",
-      "TanStack Query",
-      "HTML5",
-      "CSS3"
-    ],
-    backend: [
-      "Node.js",
-      "Express.js",
-      "RESTful API Design",
-      "WebSockets (Socket.IO)"
-    ],
-    security: [
-      "JWT Authentication",
-      "OAuth",
-      "Better Auth",
-      "RBAC"
-    ],
-    databases: [
-      "PostgreSQL",
-      "MySQL",
-      "MongoDB",
-      "Prisma ORM",
-      "Mongoose"
-    ],
-    tools: [
-      "Git",
-      "GitHub",
-      "Postman",
-      "Vite",
-      "Zod",
-      "Agile & Scrum"
-    ],
-  },
+  skills: [
+    // Programming Languages
+    {
+      name: "JavaScript",
+      icon: "logos:javascript",
+      category: "Programming Languages",
+      url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+      featured: true,
+    },
+    {
+      name: "TypeScript",
+      icon: "logos:typescript-icon",
+      category: "Programming Languages",
+      url: "https://www.typescriptlang.org/",
+      featured: true,
+    },
+    {
+      name: "Go",
+      icon: "logos:go",
+      category: "Programming Languages",
+      url: "https://go.dev/",
+      featured: true,
+    },
+    {
+      name: "C++",
+      icon: "logos:c-plusplus",
+      category: "Programming Languages",
+      url: "https://cplusplus.com/",
+      featured: true,
+    },
+    {
+      name: "Java",
+      icon: "logos:java",
+      category: "Programming Languages",
+      url: "https://www.java.com/",
+      featured: true,
+    },
+
+    // Frontend
+    {
+      name: "React.js",
+      icon: "logos:react",
+      category: "Frontend",
+      url: "https://react.dev/",
+      featured: true,
+    },
+    {
+      name: "Next.js",
+      icon: "logos:nextjs-icon",
+      category: "Frontend",
+      url: "https://nextjs.org/",
+      featured: true,
+    },
+    {
+      name: "HTML5",
+      icon: "logos:html-5",
+      category: "Frontend",
+      url: "https://developer.mozilla.org/en-US/docs/Web/HTML",
+      featured: true,
+    },
+    {
+      name: "CSS3",
+      icon: "logos:css-3",
+      category: "Frontend",
+      url: "https://developer.mozilla.org/en-US/docs/Web/CSS",
+      featured: true,
+    },
+    {
+      name: "Tailwind CSS",
+      icon: "logos:tailwindcss-icon",
+      category: "Frontend",
+      url: "https://tailwindcss.com/",
+      featured: true,
+    },
+    {
+      name: "Redux Toolkit",
+      icon: "logos:redux",
+      category: "Frontend",
+      url: "https://redux-toolkit.js.org/",
+      featured: true,
+    },
+    {
+      name: "shadcn/ui",
+      icon: "simple-icons:shadcnui",
+      category: "Frontend",
+      url: "https://ui.shadcn.com/",
+      featured: true,
+    },
+    {
+      name: "TanStack Query",
+      icon: "simple-icons:reactquery",
+      category: "Frontend",
+      url: "https://tanstack.com/query",
+      featured: true,
+    },
+    {
+      name: "Three.js",
+      icon: "simple-icons:threedotjs",
+      category: "Frontend",
+      url: "https://threejs.org/",
+      featured: true,
+    },
+    {
+      name: "Framer Motion",
+      icon: "simple-icons:framer",
+      category: "Frontend",
+      url: "https://framer.com/motion/",
+      featured: true,
+    },
+    {
+      name: "Material UI",
+      icon: "logos:material-ui",
+      category: "Frontend",
+      url: "https://mui.com/",
+      featured: true,
+    },
+
+
+    // Backend
+    {
+      name: "Node.js",
+      icon: "logos:nodejs-icon",
+      category: "Backend",
+      url: "https://nodejs.org/",
+      featured: true,
+    },
+    {
+      name: "Express.js",
+      icon: "simple-icons:express",
+      category: "Backend",
+      url: "https://expressjs.com/",
+      featured: true,
+    },
+    {
+      name: "Socket.IO",
+      icon: "logos:socket-io",
+      category: "Backend",
+      url: "https://socket.io/",
+      featured: true,
+    },
+    {
+      name: "REST API",
+      icon: "mdi:api",
+      category: "Backend",
+      url: "https://developer.mozilla.org/en-US/docs/Glossary/REST",
+      featured: true,
+    },
+
+    // Database
+    {
+      name: "PostgreSQL",
+      icon: "logos:postgresql",
+      category: "Database",
+      url: "https://www.postgresql.org/",
+      featured: true,
+    },
+    {
+      name: "MongoDB",
+      icon: "logos:mongodb-icon",
+      category: "Database",
+      url: "https://www.mongodb.com/",
+      featured: true,
+    },
+    {
+      name: "Prisma",
+      icon: "simple-icons:prisma",
+      category: "Database",
+      url: "https://www.prisma.io/",
+      featured: true,
+    },
+    {
+      name: "Mongoose",
+      icon: "simple-icons:mongoose",
+      category: "Database",
+      url: "https://mongoosejs.com/",
+      featured: true,
+    },
+    {
+      name: "MySQL",
+      icon: "logos:mysql",
+      category: "Database",
+      url: "https://www.mysql.com/",
+      featured: true,
+    },
+
+    // AI
+    {
+      name: "OpenAI SDK",
+      icon: "simple-icons:openai",
+      category: "AI",
+      url: "https://platform.openai.com/",
+      featured: true,
+    },
+
+    // Security
+    {
+      name: "JWT",
+      icon: "logos:jwt-icon",
+      category: "Security",
+      url: "https://jwt.io/",
+      featured: true,
+    },
+    {
+      name: "OAuth 2.0",
+      icon: "lucide:key-round",
+      category: "Security",
+      url: "https://oauth.net/2/",
+      featured: true,
+    },
+    {
+      name: "Better Auth",
+      icon: "simple-icons:betterauth",
+      category: "Security",
+      url: "https://www.better-auth.com/",
+      featured: true,
+    },
+    {
+      name: "Zod",
+      icon: "simple-icons:zod",
+      category: "Security",
+      url: "https://zod.dev/",
+      featured: true,
+    },
+    {
+      name: "RBAC",
+      icon: "lucide:shield-check",
+      category: "Security",
+      url: "https://en.wikipedia.org/wiki/Role-based_access_control",
+      featured: true,
+    },
+
+    // Third-Party Integrations
+    {
+      name: "Stripe",
+      icon: "logos:stripe",
+      category: "Third-Party Integrations",
+      url: "https://stripe.com/",
+      featured: true,
+    },
+    {
+      name: "Cloudinary",
+      icon: "logos:cloudinary-icon",
+      category: "Third-Party Integrations",
+      url: "https://cloudinary.com/",
+      featured: true,
+    },
+    {
+      name: "Nodemailer",
+      icon: "fe:mail",
+      category: "Third-Party Integrations",
+      url: "https://nodemailer.com/",
+      featured: true,
+    },
+
+    // Tools & DevOps
+    {
+      name: "Git",
+      icon: "logos:git-icon",
+      category: "Tools & DevOps",
+      url: "https://git-scm.com/",
+      featured: true,
+    },
+    {
+      name: "GitHub",
+      icon: "mdi:github",
+      category: "Tools & DevOps",
+      url: "https://github.com/",
+      featured: true,
+    },
+    {
+      name: "GitHub Actions",
+      icon: "logos:github-actions",
+      category: "Tools & DevOps",
+      url: "https://github.com/features/actions",
+      featured: true,
+    },
+    {
+      name: "Docker",
+      icon: "logos:docker-icon",
+      category: "Tools & DevOps",
+      url: "https://www.docker.com/",
+      featured: true,
+    },
+
+    {
+      name: "Postman",
+      icon: "logos:postman-icon",
+      category: "Tools & DevOps",
+      url: "https://www.postman.com/",
+      featured: true,
+    },
+    {
+      name: "Vite",
+      icon: "logos:vitejs",
+      category: "Tools & DevOps",
+      url: "https://vite.dev/",
+      featured: true,
+    },
+
+    // Deployment & Hosting
+    {
+      name: "Vercel",
+      icon: "simple-icons:vercel",
+      category: "Deployment & Hosting",
+      url: "https://vercel.com/",
+      featured: true,
+    },
+    {
+      name: "Render",
+      icon: "simple-icons:render",
+      category: "Deployment & Hosting",
+      url: "https://render.com/",
+      featured: true,
+    },
+    {
+      name: "Netlify",
+      icon: "logos:netlify-icon",
+      category: "Deployment & Hosting",
+      url: "https://www.netlify.com/",
+      featured: true,
+    },
+    {
+      name: "Railway",
+      icon: "simple-icons:railway",
+      category: "Deployment & Hosting",
+      url: "https://railway.app/",
+      featured: true,
+    }
+  ],
+
 
   experience: [
     {
@@ -174,6 +465,6 @@ export const portfolioData = {
     downloadUrl: "/SaniMohibur_CV.pdf",
     downloadName: "Mohibur_Rahman_Sani_CV.pdf",
   },
-} as const;
+};
 
 export type PortfolioData = typeof portfolioData;
