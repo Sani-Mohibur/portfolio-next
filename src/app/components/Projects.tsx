@@ -132,7 +132,7 @@ export default function Projects() {
         >
           <button
             onClick={() => setVisibleCount((prev) => Math.min(prev + 2, projects.length))}
-            className="px-8 py-3 rounded-xl bg-white dark:bg-gray-900 border-2 border-indigo-500 text-indigo-600 dark:text-indigo-400 font-semibold hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors shadow-sm"
+            className="cursor-pointer px-8 py-3 rounded-xl bg-white dark:bg-gray-900 border-2 border-indigo-500 text-indigo-600 dark:text-indigo-400 font-semibold hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors shadow-sm"
           >
             Load More Projects
           </button>
