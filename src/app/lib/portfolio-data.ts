@@ -1,9 +1,9 @@
 export const portfolioData = {
   personal: {
     name: "Mohibur Rahman Sani",
-    title: "Full Stack Developer",
+    title: "FullStack Developer",
     tagline: "Building scalable, secure, and user-focused digital experiences.",
-    intro: "I'm a Full Stack Developer specializing in Next.js, TypeScript, Node.js, and modern databases. I'm passionate about architecting reliable systems, seamless APIs, and dynamic user interfaces.",
+    intro: "Turning ideas into meaningful digital experiences through thoughtful design, clean development, and a passion for creating products people enjoy using.",
     education: "BSc in Computer Science & Engineering from AIUB",
     about:
       "I'm Mohibur Rahman Sani, a Computer Science graduate specializing in Software Engineering with a strong foundation in full-stack web development. Proficient in Next.js, MERN Stack, TypeScript, PostgreSQL, and Prisma. Experienced in building scalable web applications, authentication systems, Google OAuth integration, real-time applications using Socket.IO, and secure payment integration with Stripe. Adept at problem-solving and writing clean, scalable code.",
@@ -16,6 +16,8 @@ export const portfolioData = {
     linkedin: "https://www.linkedin.com/in/sani-mohibur",
     github: "https://github.com/Sani-Mohibur",
     website: "https://sani-mohibur.netlify.app",
+    instagram: "https://www.instagram.com/farabi_sunny202",
+    twitter: "https://x.com/sanimohibur",
   },
 
   skills: {
@@ -93,6 +95,7 @@ export const portfolioData = {
   projects: [
     {
       title: "SkillBridge (Tutor Marketplace)",
+      image: "/skillbridge.png",
       description: "A modern tutor-student marketplace UI utilizing Next.js 16 App Router, ensuring a responsive and accessible mobile-first design.",
       features: [
         "Implemented role-based dashboards (Student, Tutor, Admin) using Next.js parallel routing, secured by client-side session management.",
@@ -105,6 +108,7 @@ export const portfolioData = {
     },
     {
       title: "Thought Space (Blog Platform)",
+      image: "/thoughtspace.png",
       description: "A full-stack blog platform with a modular split-schema database architecture using Prisma and PostgreSQL.",
       features: [
         "Integrated Better Auth for seamless cross-domain authentication, featuring secure session management, fallback session-cookie handling and Google OAuth login.",
@@ -118,6 +122,7 @@ export const portfolioData = {
     },
     {
       title: "Hire Me (Job Portal)",
+      image: "/hireme.png",
       description: "Scalable backend for a job portal supporting recruiters and job seekers with secure workflows.",
       features: [
         "Developed a type-safe backend using TypeScript and Express.js, enforcing strict input validation and data consistency with Zod.",
@@ -130,6 +135,7 @@ export const portfolioData = {
     },
     {
       title: "Mental Health Tracker",
+      image: "/mental.png",
       description: "An interactive mental health application with mood tracking and journaling, incorporating a responsive UI, dark mode, and input validation.",
       features: [
         "Enhanced performance through state management and optimized client-side routing for smooth user experience."
@@ -137,6 +143,30 @@ export const portfolioData = {
       technologies: ["React.js", "Tailwind CSS", "React Router", "Vite"],
       githubFrontend: "https://github.com/Sani-Mohibur/mental-health-tracker",
       live: "https://mental-health-tracker-two.vercel.app/"
+    },
+    {
+      title: "Real-Time Chat App",
+      image: "/chat.png",
+      description: "Real-time chat system with instant messaging and synchronization across clients.",
+      features: [
+        "Built a real-time messaging architecture using Socket.IO for instant communication and persistent chat history.",
+        "Enabled message editing and deletion with dynamic, synchronized updates across all active sessions."
+      ],
+      technologies: ["React.js", "Tailwind CSS", "Node.js", "Express.js", "Socket.IO"],
+      githubBackend: "https://github.com/Sani-Mohibur/chat-backend",
+      live: ""
+    },
+    {
+      title: "Ecommerce API",
+      image: "/ecommerce.png",
+      description: "REST API for ecommerce platform handling products, carts, and authentication.",
+      features: [
+        "Developed a complete product ecosystem including catalog management, filtering by category, brand, keyword, product reviews, sliders, and detailed product information.",
+        "•Implemented a complete shopping workflow including cart, wishlist, and invoicing (order system), along with email notifications using Nodemailer and enhanced security using Helmet, CORS, and rate limiting."
+      ],
+      technologies: ["Node.js", "Express.js", "MongoDB", "Mongoose", "JWT"],
+      githubBackend: "https://github.com/Sani-Mohibur/Ecommerce-Project-API",
+      live: ""
     }
   ],
 

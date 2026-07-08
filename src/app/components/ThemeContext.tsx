@@ -36,7 +36,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     <ThemeContext.Provider value={{ dark, setDark }}>
       <div
         className={
-          dark ? "bg-[#0d1117] text-gray-100" : "bg-white text-gray-900"
+          dark ? "text-gray-100" : "bg-white text-gray-900"
         }
       >
         <div className="min-h-screen">{children}</div>
