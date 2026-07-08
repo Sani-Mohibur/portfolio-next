@@ -7,22 +7,6 @@ import { portfolioData } from "../lib/portfolio-data";
 export default function About() {
   const { personal } = portfolioData;
 
-  // Simple carousel images using premium placeholders
-  const images = [
-    "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=600&h=400",
-    "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600&h=400",
-    "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=600&h=400"
-  ];
-
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % images.length);
-    }, 4000);
-    return () => clearInterval(timer);
-  }, [images.length]);
-
   return (
     <section id="about" className="py-20 lg:py-28 relative">
       {/* Section Header */}
@@ -34,39 +18,15 @@ export default function About() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        {/* Left Side: Carousel */}
-        <div className="relative w-full h-[300px] sm:h-[400px] rounded-2xl overflow-hidden shadow-[var(--shadow-premium)] dark:shadow-[var(--shadow-premium-dark)] group">
-          <AnimatePresence mode="wait">
-            <motion.img
-              key={currentIndex}
-              src={images[currentIndex]}
-              alt="Developer working"
-              initial={{ opacity: 0, scale: 1.05 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.8, ease: "easeInOut" }}
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-          </AnimatePresence>
-          
-          {/* Carousel indicators */}
-          <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-10">
-            {images.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setCurrentIndex(idx)}
-                className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                  idx === currentIndex 
-                    ? "bg-white w-6" 
-                    : "bg-white/50 hover:bg-white/80"
-                }`}
-                aria-label={`Go to slide ${idx + 1}`}
-              />
-            ))}
-          </div>
-          
-          {/* Subtle overlay gradient */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
+        {/* Left Side: Single Image */}
+        <div className="relative w-full h-[300px] sm:h-[400px] rounded-3xl overflow-hidden flex items-center justify-center border border-gray-200 dark:border-gray-800 bg-white/5 dark:bg-gray-900/30 backdrop-blur-sm shadow-xl p-8 group">
+          <img
+            src="/about-illustration.webp"
+            alt="About Me"
+            className="w-full h-full object-contain dark:invert transition-transform duration-500 hover:scale-105"
+          />
+          {/* Optional: Add a subtle inner glow ring */}
+          <div className="absolute inset-0 rounded-3xl ring-1 ring-inset ring-white/10" />
         </div>
 
         {/* Right Side: Content & Stats */}
@@ -75,7 +35,7 @@ export default function About() {
             <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
               Transforming ideas into <span className="text-indigo-600 dark:text-indigo-400">digital reality</span>.
             </h3>
-            <p className="text-gray-600 dark:text-gray-400 leading-relaxed text-lg">
+            <p className="text-gray-600 dark:text-gray-400 leading-relaxed text-lg text-justify">
               {personal.about}
             </p>
           </div>
@@ -85,7 +45,7 @@ export default function About() {
             {[
               { label: "Experience", value: "1+ Years" },
               { label: "Completed Projects", value: "10+" },
-              { label: "Client Satisfaction", value: "100%" },
+              { label: "Client Satisfaction", value: "90%" },
             ].map((stat, i) => (
               <div key={i} className="flex flex-col space-y-1">
                 <span className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-600">

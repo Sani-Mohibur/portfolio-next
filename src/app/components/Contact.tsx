@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { portfolioData } from "../lib/portfolio-data";
-import { MailIcon, GithubIcon, LinkedinIcon } from "./icons";
+import { MailIcon, GithubIcon, LinkedinIcon, InstagramIcon, TwitterIcon } from "./icons";
 
 // Map Pin Icon
 const MapPinIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -32,16 +32,46 @@ export default function Contact() {
   const { contact, personal } = portfolioData;
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionStatus, setSubmissionStatus] = useState<{ success: boolean; message: string } | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate form submission
-    setTimeout(() => {
+    setSubmissionStatus(null);
+
+    const key = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
+    if (!key) {
       setIsSubmitting(false);
-      setFormData({ name: "", email: "", message: "" });
-      alert("Message sent successfully! (Simulated)");
-    }, 1500);
+      setSubmissionStatus({ success: false, message: "Missing Access Key config." });
+      return;
+    }
+
+    const submissionData = new FormData();
+    submissionData.append("access_key", key);
+    submissionData.append("subject", "New Portfolio Message");
+    submissionData.append("name", formData.name);
+    submissionData.append("email", formData.email);
+    submissionData.append("message", formData.message);
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: submissionData,
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setSubmissionStatus({ success: true, message: "Message sent successfully!" });
+        setFormData({ name: "", email: "", message: "" });
+      } else {
+        setSubmissionStatus({ success: false, message: data.message || "Something went wrong." });
+      }
+    } catch (error) {
+      setSubmissionStatus({ success: false, message: "Failed to connect. Please check network." });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -64,10 +94,10 @@ export default function Contact() {
         >
           <div className="space-y-4">
             <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
-              Let's talk about your next project
+              Let's Connect and Share Ideas Together
             </h3>
             <p className="text-gray-600 dark:text-gray-400">
-              I'm always open to discussing new projects, creative ideas or opportunities to be part of your visions.
+              Whether it's tech, ideas, or just a friendly conversation, feel free to reach out. Every great connection starts with a simple hello.
             </p>
           </div>
 
@@ -112,23 +142,13 @@ export default function Contact() {
           <div className="pt-6 border-t border-gray-200 dark:border-gray-800">
             <p className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">Social Profiles</p>
             <div className="flex gap-4">
-              <a href={contact.github} target="_blank" rel="noreferrer" className="p-3 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-600 dark:hover:text-white transition-all transform hover:-translate-y-1">
-                <GithubIcon className="w-5 h-5" />
+              <a href={contact.instagram} target="_blank" rel="noreferrer" className="p-3 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-600 dark:hover:text-white transition-all transform hover:-translate-y-1">
+                <InstagramIcon className="w-5 h-5" />
               </a>
-              <a href={contact.linkedin} target="_blank" rel="noreferrer" className="p-3 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-600 dark:hover:text-white transition-all transform hover:-translate-y-1">
-                <LinkedinIcon className="w-5 h-5" />
+              <a href={contact.twitter} target="_blank" rel="noreferrer" className="p-3 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-600 dark:hover:text-white transition-all transform hover:-translate-y-1">
+                <TwitterIcon className="w-5 h-5" />
               </a>
             </div>
-          </div>
-
-          {/* GitHub Stats / Social Proof */}
-          <div className="pt-6 border-t border-gray-200 dark:border-gray-800">
-             <p className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">GitHub Activity</p>
-             <img 
-               src="https://github-readme-stats.vercel.app/api?username=Sani-Mohibur&show_icons=true&theme=transparent&hide_border=true&title_color=6366f1&icon_color=8b5cf6&text_color=9ca3af" 
-               alt="GitHub Stats" 
-               className="w-full max-w-sm drop-shadow-sm filter dark:brightness-125 transition-all"
-             />
           </div>
         </motion.div>
 
@@ -156,7 +176,7 @@ export default function Contact() {
             <div className="space-y-2">
               <label htmlFor="email" className="text-sm font-medium text-gray-700 dark:text-gray-300">Your Email</label>
               <input
-                type="email"
+                type="type"
                 id="email"
                 required
                 value={formData.email}
@@ -177,6 +197,13 @@ export default function Contact() {
                 placeholder="How can I help you?"
               />
             </div>
+
+            {submissionStatus && (
+              <p className={`text-sm font-medium text-center ${submissionStatus.success ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}>
+                {submissionStatus.message}
+              </p>
+            )}
+
             <button
               type="submit"
               disabled={isSubmitting}
