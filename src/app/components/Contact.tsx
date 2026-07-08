@@ -77,7 +77,7 @@ export default function Contact() {
   return (
     <section id="contact" className="py-20 lg:py-28 relative">
       <div className="flex flex-col items-center justify-center mb-16 text-center">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        <h2 className="select-none text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
           Get In Touch
         </h2>
         <div className="w-20 h-1.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full" />
@@ -92,7 +92,7 @@ export default function Contact() {
           transition={{ duration: 0.5 }}
           className="space-y-8"
         >
-          <div className="space-y-4">
+          <div className="select-none space-y-4">
             <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
               Let's Connect and Share Ideas Together
             </h3>

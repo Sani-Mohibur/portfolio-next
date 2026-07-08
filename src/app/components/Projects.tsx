@@ -107,7 +107,7 @@ export default function Projects() {
   const hasMore = visibleCount < projects.length;
 
   return (
-    <section id="projects" className="py-20 lg:py-28 relative">
+    <section id="projects" className="select-none py-20 lg:py-28 relative">
       <div className="flex flex-col items-center justify-center mb-16 text-center">
         <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
           Featured Projects

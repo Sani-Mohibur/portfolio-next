@@ -11,7 +11,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative bg-gradient-to-b from-white to-gray-50 dark:from-[#0d1117] dark:to-[#090d13] border-t border-gray-200/60 dark:border-gray-800/60 transition-colors duration-500 overflow-hidden">
+    <footer className="select-none relative bg-gradient-to-b from-white to-gray-50 dark:from-[#0d1117] dark:to-[#090d13] border-t border-gray-200/60 dark:border-gray-800/60 transition-colors duration-500 overflow-hidden">
       {/* Soft top border glow for dark mode */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-px bg-gradient-to-r from-transparent via-indigo-500/20 to-transparent dark:via-indigo-500/40 pointer-events-none" />
 

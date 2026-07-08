@@ -5,6 +5,16 @@ import { portfolioData } from "./portfolio-data";
 
 const data = portfolioData;
 
+// Group the flat skills array dynamically by category
+const groupedSkills = data.skills.reduce((acc: Record<string, string[]>, skill) => {
+  const categoryKey = (skill.category || "Other").toLowerCase();
+  if (!acc[categoryKey]) {
+    acc[categoryKey] = [];
+  }
+  acc[categoryKey].push(skill.name);
+  return acc;
+}, {});
+
 export const AI_MODEL = "llama-3.3-70b-versatile";
 
 export const SYSTEM_PROMPT = `You are a professional AI assistant embedded in Mohibur Rahman Sani's portfolio website.
@@ -53,18 +63,14 @@ ${data.education.map(e => `### ${e.degree}
 `).join('\n')}
 
 ## Skills
-### Languages
-${data.skills.languages.join(", ")}
 ### Frontend
-${data.skills.frontend.join(", ")}
+ ${(groupedSkills["frontend"] || []).join(", ") || "None listed"}
 ### Backend
-${data.skills.backend.join(", ")}
-### Security
-${data.skills.security.join(", ")}
-### Databases & ORMs
-${data.skills.databases.join(", ")}
-### Tools & Process
-${data.skills.tools.join(", ")}
+ ${(groupedSkills["backend"] || []).join(", ") || "None listed"}
+### Database / ORMs
+ ${(groupedSkills["database"] || []).join(", ") || "None listed"}
+### Third-Party Integrations
+ ${(groupedSkills["third-party integrations"] || []).join(", ") || "None listed"}
 
 ## Projects
 ${data.projects

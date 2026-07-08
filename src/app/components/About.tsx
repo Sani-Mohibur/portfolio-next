@@ -1,14 +1,12 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { portfolioData } from "../lib/portfolio-data";
 
 export default function About() {
   const { personal } = portfolioData;
 
   return (
-    <section id="about" className="py-20 lg:py-28 relative">
+    <section id="about" className="py-20 lg:py-28 relative select-none">
       {/* Section Header */}
       <div className="flex flex-col items-center justify-center mb-16 text-center">
         <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">

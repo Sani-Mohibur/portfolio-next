@@ -78,12 +78,12 @@ export default function Navbar() {
       }}
       animate={visible ? "visible" : "hidden"}
       transition={{ duration: 0.35, ease: "easeInOut" }}
-      className="fixed top-0 inset-x-0 z-50 p-4 pointer-events-none"
+      className="fixed top-0 inset-x-0 z-50 p-4 pointer-events-none select-none"
     >
       <nav
         className={`max-w-5xl mx-auto rounded-2xl transition-all duration-500 pointer-events-auto border backdrop-blur-md ${scrolled
-            ? "bg-white/70 dark:bg-[#0d1117]/70 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] border-gray-200/50 dark:border-gray-800/50 py-2"
-            : "bg-white/40 dark:bg-[#0d1117]/30 shadow-none border-transparent py-4"
+          ? "bg-white/70 dark:bg-[#0d1117]/70 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] border-gray-200/50 dark:border-gray-800/50 py-2"
+          : "bg-white/40 dark:bg-[#0d1117]/30 shadow-none border-transparent py-4"
           }`}
       >
         <div className="max-w-5xl mx-auto px-6 flex justify-between items-center">
@@ -101,8 +101,8 @@ export default function Navbar() {
                     key={link.name}
                     href={link.href}
                     className={`relative px-4 py-2 text-sm font-semibold tracking-wide transition-colors duration-300 ${isActive
-                        ? "text-indigo-600 dark:text-indigo-400"
-                        : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                      ? "text-indigo-600 dark:text-indigo-400"
+                      : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                       }`}
                     onClick={(e) => handleScroll(e, link.href)}
                   >
@@ -196,8 +196,8 @@ export default function Navbar() {
                     key={link.name}
                     href={link.href}
                     className={`px-4 py-3 text-sm font-semibold rounded-xl transition-all flex items-center justify-between ${isActive
-                        ? "bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400"
-                        : "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/40"
+                      ? "bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400"
+                      : "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/40"
                       }`}
                     onClick={(e) => handleScroll(e, link.href)}
                   >
