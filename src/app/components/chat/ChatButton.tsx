@@ -182,7 +182,12 @@ export default function ChatButton() {
                   "0 4px 20px rgba(34,211,238,0.1), 0 0 0 1px rgba(139,92,246,0.1)",
               }}
             >
-              <span className="mr-1.5 inline-block" style={{ fontSize: "10px" }}>✦</span>
+              <span
+                className="mr-1.5 inline-block"
+                style={{ fontSize: "10px" }}
+              >
+                ✦
+              </span>
               Ask AI about my portfolio
               {/* Arrow pointing right toward button */}
               <div
@@ -213,30 +218,7 @@ export default function ChatButton() {
             style={{
               animation: "ai-orb-ring 8s linear infinite",
             }}
-          >
-            {/* Orbiting dot 1 */}
-            {/* <div
-              className="absolute w-1 h-1 rounded-full"
-              style={{
-                top: "-1px",
-                left: "50%",
-                transform: "translateX(-50%)",
-                background: "#22d3ee",
-                boxShadow: "0 0 6px 2px rgba(34,211,238,0.5)",
-              }}
-            /> */}
-            {/* Orbiting dot 2 (opposite side) */}
-            {/* <div
-              className="absolute w-0.5 h-0.5 rounded-full"
-              style={{
-                bottom: "-1px",
-                left: "50%",
-                transform: "translateX(-50%)",
-                background: "#8b5cf6",
-                boxShadow: "0 0 4px 1px rgba(139,92,246,0.5)",
-              }}
-            /> */}
-          </div>
+          ></div>
         )}
 
         {/* ── Breathing Glow Ring (behind button) ── */}

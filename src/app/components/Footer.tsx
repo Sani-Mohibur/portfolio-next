@@ -18,7 +18,6 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-6 py-10 md:py-16 relative z-10">
         {/* Main Links/Brand Container */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-8 items-start text-center md:text-left">
-
           {/* Brand */}
           <div className="flex flex-col items-center md:items-start space-y-3 order-1">
             <h2 className="text-2xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 dark:from-indigo-400 dark:via-purple-400 dark:to-pink-400">
@@ -26,13 +25,14 @@ export default function Footer() {
               <span className="text-gray-900 dark:text-white">.</span>
             </h2>
             <p className="text-sm leading-relaxed text-gray-500 dark:text-gray-400 max-w-sm font-medium">
-              Full-Stack Engineer specializing in robust backend architecture, scalable microservices, and fluid interface design.
+              Full-Stack Engineer specializing in robust backend architecture,
+              scalable microservices, and fluid interface design.
             </p>
           </div>
 
           {/* Navigation Links - Stacked perfectly on mobile, row on desktop */}
           <div className="flex flex-col sm:flex-row md:flex-wrap justify-center items-center md:pt-2 gap-4 sm:gap-x-8 order-3 md:order-2">
-            {["About", "Skills", "Experience", "Projects"].map((link) => (
+            {["About", "Skills", "Projects", "Contact"].map((link) => (
               <a
                 key={link}
                 href={`#${link.toLowerCase()}`}
@@ -56,15 +56,29 @@ export default function Footer() {
 
             <div className="flex gap-3">
               {[
-                { href: contact.github, icon: <GithubIcon className="w-5 h-5" />, label: "GitHub" },
-                { href: contact.linkedin, icon: <LinkedinIcon className="w-5 h-5" />, label: "LinkedIn" },
-                { href: `mailto:${contact.email}`, icon: <MailIcon className="w-5 h-5" />, label: "Email" },
+                {
+                  href: contact.github,
+                  icon: <GithubIcon className="w-5 h-5" />,
+                  label: "GitHub",
+                },
+                {
+                  href: contact.linkedin,
+                  icon: <LinkedinIcon className="w-5 h-5" />,
+                  label: "LinkedIn",
+                },
+                {
+                  href: `mailto:${contact.email}`,
+                  icon: <MailIcon className="w-5 h-5" />,
+                  label: "Email",
+                },
               ].map((item, index) => (
                 <a
                   key={index}
                   href={item.href}
                   target={item.label !== "Email" ? "_blank" : undefined}
-                  rel={item.label !== "Email" ? "noopener noreferrer" : undefined}
+                  rel={
+                    item.label !== "Email" ? "noopener noreferrer" : undefined
+                  }
                   className="p-3 rounded-xl border border-gray-200/50 dark:border-gray-700/30 bg-white/40 dark:bg-gray-800/30 backdrop-blur-md text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:border-indigo-500/30 dark:hover:border-indigo-400/30 hover:shadow-[0_0_15px_rgba(99,102,241,0.15)] dark:hover:shadow-[0_0_20px_rgba(99,102,241,0.2)] transition-all duration-300 transform hover:-translate-y-1"
                   aria-label={item.label}
                 >

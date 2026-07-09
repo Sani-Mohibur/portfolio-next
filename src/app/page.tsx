@@ -17,10 +17,9 @@ import ChatButton from "./components/chat/ChatButton";
 import BackToTop from "./components/BackToTop";
 
 // Dynamic import to avoid SSR for WebGL (three.js is client-only)
-const SpaceBackground = dynamic(
-  () => import("./components/SpaceBackground"),
-  { ssr: false }
-);
+const SpaceBackground = dynamic(() => import("./components/SpaceBackground"), {
+  ssr: false,
+});
 
 export default function Home() {
   return (

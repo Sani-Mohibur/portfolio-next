@@ -3,11 +3,23 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { portfolioData } from "../lib/portfolio-data";
-import { MailIcon, GithubIcon, LinkedinIcon, InstagramIcon, TwitterIcon } from "./icons";
+import { MailIcon, InstagramIcon, TwitterIcon } from "./icons";
+import { CheckIcon, CopyIcon } from "lucide-react";
 
 // Map Pin Icon
 const MapPinIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
     <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
     <circle cx="12" cy="10" r="3" />
   </svg>
@@ -15,24 +27,74 @@ const MapPinIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 // Phone Icon
 const PhoneIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
   </svg>
 );
 
 // Send Icon
 const SendIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
     <path d="m22 2-7 20-4-9-9-4Z" />
     <path d="M22 2 11 13" />
   </svg>
 );
 
+const CopyButton = ({ text }: { text: string }) => {
+  const [copied, setCopied] = useState(false);
+  const handleCopy = () => {
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+  return (
+    <button
+      onClick={handleCopy}
+      className="ml-2 p-1.5 rounded-lg text-gray-400 hover:text-indigo-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all opacity-0 group-hover:opacity-100"
+    >
+      {copied ? (
+        <CheckIcon className="w-3.5 h-3.5" />
+      ) : (
+        <CopyIcon className="w-3.5 h-3.5" />
+      )}
+    </button>
+  );
+};
+
 export default function Contact() {
   const { contact, personal } = portfolioData;
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submissionStatus, setSubmissionStatus] = useState<{ success: boolean; message: string } | null>(null);
+  const [submissionStatus, setSubmissionStatus] = useState<{
+    success: boolean;
+    message: string;
+  } | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,7 +104,10 @@ export default function Contact() {
     const key = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
     if (!key) {
       setIsSubmitting(false);
-      setSubmissionStatus({ success: false, message: "Missing Access Key config." });
+      setSubmissionStatus({
+        success: false,
+        message: "Missing Access Key config.",
+      });
       return;
     }
 
@@ -62,13 +127,22 @@ export default function Contact() {
       const data = await response.json();
 
       if (data.success) {
-        setSubmissionStatus({ success: true, message: "Message sent successfully!" });
+        setSubmissionStatus({
+          success: true,
+          message: "Message sent successfully!",
+        });
         setFormData({ name: "", email: "", message: "" });
       } else {
-        setSubmissionStatus({ success: false, message: data.message || "Something went wrong." });
+        setSubmissionStatus({
+          success: false,
+          message: data.message || "Something went wrong.",
+        });
       }
     } catch (error) {
-      setSubmissionStatus({ success: false, message: "Failed to connect. Please check network." });
+      setSubmissionStatus({
+        success: false,
+        message: "Failed to connect. Please check network.",
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -97,41 +171,58 @@ export default function Contact() {
               Let's Connect and Share Ideas Together
             </h3>
             <p className="text-gray-600 dark:text-gray-400">
-              Whether it's tech, ideas, or just a friendly conversation, feel free to reach out. Every great connection starts with a simple hello.
+              Whether it's tech, ideas, or just a friendly conversation, feel
+              free to reach out. Every great connection starts with a simple
+              hello.
             </p>
           </div>
 
           <div className="space-y-6 pt-4">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 group">
               <div className="p-3 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-xl">
                 <MailIcon className="w-6 h-6" />
               </div>
               <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400 font-medium mb-0.5">Email Me</p>
-                <a href={`mailto:${contact.email}`} className="text-gray-900 dark:text-white font-semibold hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors break-all">
-                  {contact.email}
-                </a>
+                <p className="select-none text-sm text-gray-500 dark:text-gray-400 font-medium mb-0.5">
+                  Email Me
+                </p>
+                <div className="flex items-center">
+                  <a
+                    href={`mailto:${contact.email}`}
+                    className="text-gray-900 dark:text-white font-semibold hover:text-indigo-600 transition-colors"
+                  >
+                    {contact.email}
+                  </a>
+                  <CopyButton text={contact.email} />
+                </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 group">
               <div className="p-3 bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-xl">
                 <PhoneIcon className="w-6 h-6" />
               </div>
               <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400 font-medium mb-0.5">Call Me</p>
-                <p className="text-gray-900 dark:text-white font-semibold">
-                  {contact.phone}
+                <p className="select-none text-sm text-gray-500 dark:text-gray-400 font-medium mb-0.5">
+                  Call Me
                 </p>
+                <div className="flex items-center">
+                  <p className="text-gray-900 dark:text-white font-semibold">
+                    {contact.phone}
+                  </p>
+                  <CopyButton text={contact.phone} />
+                </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="select-none flex items-center gap-4">
               <div className="p-3 bg-pink-50 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400 rounded-xl">
                 <MapPinIcon className="w-6 h-6" />
               </div>
               <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400 font-medium mb-0.5">Location</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 font-medium mb-0.5">
+                  Location
+                </p>
                 <p className="text-gray-900 dark:text-white font-semibold">
                   {personal.location}
                 </p>
@@ -140,12 +231,24 @@ export default function Contact() {
           </div>
 
           <div className="pt-6 border-t border-gray-200 dark:border-gray-800">
-            <p className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">Social Profiles</p>
+            <p className="select-none text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">
+              Social Profiles
+            </p>
             <div className="flex gap-4">
-              <a href={contact.instagram} target="_blank" rel="noreferrer" className="p-3 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-600 dark:hover:text-white transition-all transform hover:-translate-y-1">
+              <a
+                href={contact.instagram}
+                target="_blank"
+                rel="noreferrer"
+                className="p-3 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-600 dark:hover:text-white transition-all transform hover:-translate-y-1"
+              >
                 <InstagramIcon className="w-5 h-5" />
               </a>
-              <a href={contact.twitter} target="_blank" rel="noreferrer" className="p-3 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-600 dark:hover:text-white transition-all transform hover:-translate-y-1">
+              <a
+                href={contact.twitter}
+                target="_blank"
+                rel="noreferrer"
+                className="p-3 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-600 dark:hover:text-white transition-all transform hover:-translate-y-1"
+              >
                 <TwitterIcon className="w-5 h-5" />
               </a>
             </div>
@@ -162,44 +265,67 @@ export default function Contact() {
         >
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <label htmlFor="name" className="text-sm font-medium text-gray-700 dark:text-gray-300">Your Name</label>
+              <label
+                htmlFor="name"
+                className="text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
+                Your Name
+              </label>
               <input
                 type="text"
                 id="name"
                 required
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
                 className="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-950 border border-gray-200 dark:border-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-600 transition-shadow"
                 placeholder="Enter your name"
               />
             </div>
             <div className="space-y-2">
-              <label htmlFor="email" className="text-sm font-medium text-gray-700 dark:text-gray-300">Your Email</label>
+              <label
+                htmlFor="email"
+                className="text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
+                Your Email
+              </label>
               <input
                 type="type"
                 id="email"
                 required
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
                 className="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-950 border border-gray-200 dark:border-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-600 transition-shadow"
                 placeholder="Enter your email address"
               />
             </div>
             <div className="space-y-2">
-              <label htmlFor="message" className="text-sm font-medium text-gray-700 dark:text-gray-300">Message</label>
+              <label
+                htmlFor="message"
+                className="text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
+                Message
+              </label>
               <textarea
                 id="message"
                 required
                 rows={5}
                 value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, message: e.target.value })
+                }
                 className="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-950 border border-gray-200 dark:border-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-600 transition-shadow resize-none"
                 placeholder="How can I help you?"
               />
             </div>
 
             {submissionStatus && (
-              <p className={`text-sm font-medium text-center ${submissionStatus.success ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}>
+              <p
+                className={`text-sm font-medium text-center ${submissionStatus.success ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}
+              >
                 {submissionStatus.message}
               </p>
             )}
