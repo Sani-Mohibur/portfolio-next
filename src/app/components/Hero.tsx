@@ -2,7 +2,17 @@
 
 import { motion, Variants } from "framer-motion";
 import { portfolioData } from "../lib/portfolio-data";
-import { GithubIcon as Github, LinkedinIcon as Linkedin, DownloadIcon as Download, MailIcon as Mail, TerminalIcon as Terminal, DatabaseIcon as Database, ServerIcon as Server } from "./icons";
+import {
+  GithubIcon as Github,
+  LinkedinIcon as Linkedin,
+  DownloadIcon as Download,
+  MailIcon as Mail,
+  TerminalIcon as Terminal,
+  DatabaseIcon as Database,
+  ServerIcon as Server,
+} from "./icons";
+import { useEffect } from "react";
+import Image from "next/image";
 
 export default function Hero() {
   const { personal, contact, resume } = portfolioData;
@@ -20,14 +30,24 @@ export default function Hero() {
 
   const itemVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" },
+    },
   };
 
+  useEffect(() => {
+    console.log(window.innerWidth, window.innerHeight);
+  }, []);
+
   return (
-    <section id="hero" className="select-none relative min-h-0 flex items-center pt-48 lg:pt-64 pb-24 lg:pb-32 overflow-visible">
+    <section
+      id="hero"
+      className="select-none relative min-h-0 flex items-center pt-48 lg:pt-64 pb-24 lg:pb-32 overflow-visible"
+    >
       {/* Animated Background Elements */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-      </div>
+      <div className="absolute inset-0 pointer-events-none overflow-hidden"></div>
 
       <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center z-10">
         {/* Left Content */}
@@ -37,19 +57,32 @@ export default function Hero() {
           initial="hidden"
           animate="visible"
         >
-          <motion.h1 variants={itemVariants} className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-4 text-gray-900 dark:text-white">
-            Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-600">{personal.name.split(' ')[0]}</span> <br className="hidden sm:block" />
+          <motion.h1
+            variants={itemVariants}
+            className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-4 text-gray-900 dark:text-white"
+          >
+            Hi, I'm{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-600">
+              {personal.name.split(" ")[0]}
+            </span>{" "}
+            <br className="hidden sm:block" />
             <span className="text-3xl sm:text-4xl lg:text-5xl text-gray-700 dark:text-gray-300 mt-2 block">
               {personal.title}
             </span>
           </motion.h1>
 
-          <motion.p variants={itemVariants} className="text-lg sm:text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-2xl leading-relaxed">
+          <motion.p
+            variants={itemVariants}
+            className="text-lg sm:text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-2xl leading-relaxed"
+          >
             {/* {personal.tagline} <br className="hidden sm:block" /> */}
             {personal.intro}
           </motion.p>
 
-          <motion.div variants={itemVariants} className="flex flex-wrap justify-center lg:justify-start gap-4 mb-10">
+          <motion.div
+            variants={itemVariants}
+            className="flex flex-wrap justify-center lg:justify-start gap-4 mb-10"
+          >
             <a
               href={resume.downloadUrl}
               download={resume.downloadName}
@@ -88,8 +121,13 @@ export default function Hero() {
           </motion.div>
 
           {/* Tech Badges */}
-          <motion.div variants={itemVariants} className="flex flex-col items-center lg:items-start gap-3 w-full">
-            <span className="text-sm font-medium text-gray-500 uppercase tracking-wider">Tech Stack</span>
+          <motion.div
+            variants={itemVariants}
+            className="flex flex-col items-center lg:items-start gap-3 w-full"
+          >
+            <span className="text-sm font-medium text-gray-500 uppercase tracking-wider">
+              Tech Stack
+            </span>
             <div className="flex flex-wrap justify-center lg:justify-start gap-3">
               {[
                 { name: "Next.js", icon: <Terminal size={14} /> },
@@ -97,7 +135,10 @@ export default function Hero() {
                 { name: "Node.js", icon: <Server size={14} /> },
                 { name: "PostgreSQL", icon: <Database size={14} /> },
               ].map((tech) => (
-                <div key={tech.name} className="flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-700 dark:text-gray-300 shadow-sm">
+                <div
+                  key={tech.name}
+                  className="flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-700 dark:text-gray-300 shadow-sm"
+                >
                   <span className="text-indigo-500">{tech.icon}</span>
                   {tech.name}
                 </div>
@@ -118,13 +159,12 @@ export default function Hero() {
 
           {/* The Image - Squircle shape maintained */}
           <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 rounded-[3rem] overflow-hidden border-4 border-white dark:border-gray-800 shadow-[var(--shadow-premium)] dark:shadow-[var(--shadow-premium-dark)]">
-            <img
+            <Image
               src="/profile-placeholder.webp"
+              fill
+              priority
               alt={personal.name}
               className="w-full h-full object-cover"
-              onError={(e) => {
-                e.currentTarget.src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=600&h=600";
-              }}
             />
           </div>
         </motion.div>

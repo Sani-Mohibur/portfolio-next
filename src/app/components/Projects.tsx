@@ -4,10 +4,22 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { portfolioData } from "../lib/portfolio-data";
 import { GithubIcon } from "./icons";
+import Image from "next/image";
 
 // SVG for external link (Live Demo)
 const ExternalLinkIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
     <polyline points="15 3 21 3 21 9" />
     <line x1="10" x2="21" y1="14" y2="3" />
@@ -30,12 +42,14 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
     >
       <div className="relative w-full h-[240px] sm:h-[300px] overflow-hidden bg-gray-100 dark:bg-gray-800 flex items-center justify-center group">
         {!imageError ? (
-          <img
+          <Image
             src={project.image}
+            fill
             alt={`${project.title} application interface`}
             onError={() => setImageError(true)}
-            className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out ${isHovered ? "scale-110" : "scale-100"
-              }`}
+            className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out ${
+              isHovered ? "scale-110" : "scale-100"
+            }`}
           />
         ) : (
           <div className="p-6 text-center w-full">
@@ -131,7 +145,9 @@ export default function Projects() {
           className="flex justify-center mt-12"
         >
           <button
-            onClick={() => setVisibleCount((prev) => Math.min(prev + 2, projects.length))}
+            onClick={() =>
+              setVisibleCount((prev) => Math.min(prev + 2, projects.length))
+            }
             className="cursor-pointer px-8 py-3 rounded-xl bg-white dark:bg-gray-900 border-2 border-indigo-500 text-indigo-600 dark:text-indigo-400 font-semibold hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors shadow-sm"
           >
             Load More Projects

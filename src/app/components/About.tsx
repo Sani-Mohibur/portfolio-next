@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { portfolioData } from "../lib/portfolio-data";
 
 export default function About() {
@@ -18,8 +19,9 @@ export default function About() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         {/* Left Side: Single Image */}
         <div className="relative w-full h-[300px] sm:h-[400px] rounded-3xl overflow-hidden flex items-center justify-center border border-gray-200 dark:border-gray-800 bg-white/5 dark:bg-gray-900/30 backdrop-blur-sm shadow-xl p-8 group">
-          <img
+          <Image
             src="/about-illustration.webp"
+            fill
             alt="About Me"
             className="w-full h-full object-contain dark:invert transition-transform duration-500 hover:scale-105"
           />
@@ -31,7 +33,11 @@ export default function About() {
         <div className="flex flex-col space-y-8">
           <div className="space-y-4">
             <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
-              Transforming ideas into <span className="text-indigo-600 dark:text-indigo-400">digital reality</span>.
+              Transforming ideas into{" "}
+              <span className="text-indigo-600 dark:text-indigo-400">
+                digital reality
+              </span>
+              .
             </h3>
             <p className="text-gray-600 dark:text-gray-400 leading-relaxed text-lg text-justify">
               {personal.about}
