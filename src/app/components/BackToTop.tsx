@@ -58,7 +58,10 @@ export default function BackToTop() {
             <motion.button
               onMouseEnter={() => setShowTooltip(true)}
               onMouseLeave={() => setShowTooltip(false)}
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              onClick={() => {
+                setShowTooltip(false);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
               whileHover={{ scale: 1.08 }}
               whileTap={{ scale: 0.93 }}
               className="relative w-14 h-14 rounded-full flex items-center justify-center border border-white/[0.08] cursor-pointer"
