@@ -2,11 +2,7 @@
 
 import React, { useState, useEffect, type FC } from "react";
 import { Canvas } from "@react-three/fiber";
-import {
-  AdaptiveDpr,
-  AdaptiveEvents,
-  Preload,
-} from "@react-three/drei";
+import { AdaptiveDpr, AdaptiveEvents, Preload } from "@react-three/drei";
 import { useQualityTier } from "./space/useQualityTier";
 import { QUALITY_CONFIGS } from "./space/constants";
 import { sharedMouse, sharedScroll } from "./space/sharedState";
@@ -81,8 +77,7 @@ const SpaceBackground: FC = () => {
     // Basic capability check: WebGL2 support + reasonable device
     try {
       const canvas = document.createElement("canvas");
-      const gl =
-        canvas.getContext("webgl2") || canvas.getContext("webgl");
+      const gl = canvas.getContext("webgl2") || canvas.getContext("webgl");
       if (!gl) {
         setShouldRender3D(false);
         return;
@@ -155,9 +150,7 @@ const SpaceBackground: FC = () => {
         <CameraRig>
           <DistantStars count={config.distantStars} />
           <Nebula planeCount={config.nebulaPlanes} />
-          {config.cosmicDust > 0 && (
-            <CosmicDust count={config.cosmicDust} />
-          )}
+          {config.cosmicDust > 0 && <CosmicDust count={config.cosmicDust} />}
           <Asteroids
             count={config.asteroids}
             enableCursorInfluence={config.enableCursorInfluence}
