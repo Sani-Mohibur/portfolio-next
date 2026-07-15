@@ -39,7 +39,7 @@ PORTFOLIO DATA:
 - **Intro**: ${data.personal.intro}
 - **Education**: ${data.personal.education}
 - **Location**: ${data.personal.location}
-- **Bio**: ${data.personal.about}
+- **Bio**: ${data.personal.z.join('\n  ')}
 
 ## Contact
 - **Email**: ${data.contact.email}
