@@ -37,7 +37,7 @@
 //   };
 
 //   return (
-//     <section id="experience" className="py-20 lg:py-28 relative">
+//     <section id="experience" className="py-16 lg:py-20 relative">
 //       <div className="flex flex-col items-center justify-center mb-16 text-center">
 //         <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
 //           Experience & Education

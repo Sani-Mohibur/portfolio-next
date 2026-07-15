@@ -2,7 +2,7 @@
 
 // export default function Resume() {
 //   return (
-//     <section id="resume" className="py-10">
+//     <section id="resume" className="py-16 lg:py-20 relative">
 //       <h2 className="text-3xl font-semibold mb-8">Resume</h2>
 //       <p className="mb-4 max-w-xl text-inherit opacity-90">
 //         You can download my complete resume to know more about my qualifications

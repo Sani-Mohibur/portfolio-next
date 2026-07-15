@@ -4,64 +4,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { portfolioData } from "../lib/portfolio-data";
 import { MailIcon, InstagramIcon, TwitterIcon } from "./icons";
-import { CheckIcon, CopyIcon } from "lucide-react";
-
-// Map Pin Icon
-const MapPinIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    {...props}
-  >
-    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-    <circle cx="12" cy="10" r="3" />
-  </svg>
-);
-
-// Phone Icon
-const PhoneIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    {...props}
-  >
-    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-  </svg>
-);
-
-// Send Icon
-const SendIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    {...props}
-  >
-    <path d="m22 2-7 20-4-9-9-4Z" />
-    <path d="M22 2 11 13" />
-  </svg>
-);
-
+import { CheckIcon, CopyIcon, MapPin, Phone, Send } from "lucide-react";
 const CopyButton = ({ text }: { text: string }) => {
   const [copied, setCopied] = useState(false);
   const handleCopy = () => {
@@ -149,7 +92,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-20 lg:py-28 relative">
+    <section id="contact" className="py-16 lg:py-20 relative">
       <div className="flex flex-col items-center justify-center mb-16 text-center">
         <h2 className="select-none text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
           Get In Touch
@@ -200,7 +143,7 @@ export default function Contact() {
 
             <div className="flex items-center gap-4 group">
               <div className="p-3 bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-xl">
-                <PhoneIcon className="w-6 h-6" />
+                <Phone className="w-6 h-6" />
               </div>
               <div>
                 <p className="select-none text-sm text-gray-500 dark:text-gray-400 font-medium mb-0.5">
@@ -217,7 +160,7 @@ export default function Contact() {
 
             <div className="select-none flex items-center gap-4">
               <div className="p-3 bg-pink-50 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400 rounded-xl">
-                <MapPinIcon className="w-6 h-6" />
+                <MapPin className="w-6 h-6" />
               </div>
               <div>
                 <p className="text-sm text-gray-500 dark:text-gray-400 font-medium mb-0.5">
@@ -339,7 +282,7 @@ export default function Contact() {
                 "Sending..."
               ) : (
                 <>
-                  <SendIcon className="w-5 h-5" />
+                  <Send className="w-5 h-5" />
                   Send Message
                 </>
               )}

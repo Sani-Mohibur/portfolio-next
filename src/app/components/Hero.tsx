@@ -44,7 +44,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="select-none relative min-h-0 flex items-center pt-48 lg:pt-64 pb-24 lg:pb-32 overflow-visible"
+      className="select-none relative min-h-0 flex items-center pt-40 lg:pt-56 pb-16 lg:pb-24 overflow-visible"
     >
       {/* Animated Background Elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden"></div>
