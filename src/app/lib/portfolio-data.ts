@@ -398,12 +398,22 @@ export const portfolioData = {
       challenges: "Implementing a unified, role-based dashboard using Next.js parallel routing and handling complex multi-stage booking lifecycles with Stripe payment synchronization required careful architectural planning.",
       futurePlans: "Future iterations will include real-time chat between tutors and students, video conferencing integration for remote sessions, and advanced analytics for tutor earnings and student progress.",
       gallery: [
-        "/projects/skillbridge.png",
-        "/projects/skillbridge.png" // Replace with actual extra images
+        "/projects/skillbridge/skillbridge1.png",
+        "/projects/skillbridge/skillbridge2.png",
+        "/projects/skillbridge/skillbridge3.png",
+        "/projects/skillbridge/skillbridge4.png",
+        "/projects/skillbridge/skillbridge5.png",
+        "/projects/skillbridge/skillbridge6.png",
+        "/projects/skillbridge/skillbridge7.png",
+        "/projects/skillbridge/skillbridge8.png",
+        "/projects/skillbridge/skillbridge9.png",
+        "/projects/skillbridge/skillbridge10.png",
       ],
       features: [
         "Implemented role-based dashboards (Student, Tutor, Admin) using Next.js parallel routing, secured by client-side session management.",
-        "Developed core marketplace features including dynamic availability slots, a multi-stage booking lifecycle, automated review aggregations, and an administrative moderation panel."
+        "Developed core marketplace features including dynamic availability slots, a multi-stage booking lifecycle, automated review aggregations, and an administrative moderation panel.",
+        "Integrated Stripe Checkout for secure session payments, including automated payment success verification and dynamically generated PDF receipts.",
+        "Engineered a robust authentication system using Better Auth, featuring custom forgot/reset password flows and seamless Cloudinary integration for profile image management."
       ],
       technologies: ["Next.js 16", "TypeScript", "Express.js", "Prisma", "PostgreSQL", "Tailwind CSS", "Shadcn UI", "Better Auth"],
       githubFrontend: "https://github.com/Sani-Mohibur/tutor-marketplace-frontend",
@@ -414,7 +424,17 @@ export const portfolioData = {
       title: "Thought Space (Blog Platform)",
       image: "/projects/thoughtspace.png",
       description: "A full-stack blog platform with a modular split-schema database architecture using Prisma and PostgreSQL.",
+      brief: "A modern, full-stack blog platform engineered with Next.js 15, featuring a split-schema PostgreSQL database, recursive commenting, and role-based administrative workspaces.",
+      whyBuilt: "Thought Space was built to explore complex database relationships and modular schema design. The goal was to create a highly scalable content platform that could handle recursive data structures (like nested comments) and atomic operations.",
+      targetUsers: "Designed for writers, content creators, and administrators who need a performant, SEO-friendly platform with robust editorial controls and deep statistical insights.",
+      challenges: "Implementing atomic transaction-based view tracking and a recursive comment system using Prisma and PostgreSQL required advanced schema design. Additionally, managing seamless cross-domain authentication with Better Auth demanded careful security configurations.",
+      futurePlans: "Future iterations will introduce AI-assisted writing tools, advanced SEO analytics dashboards, and richer multimedia embedding capabilities within the rich-text editor.",
+      gallery: [
+        "/projects/thoughtspace.png",
+        "/projects/thoughtspace.png"
+      ],
       features: [
+        "Architected a scalable, modular split-schema PostgreSQL database utilizing Prisma ORM to efficiently handle complex relational data mapping and optimized queries.",
         "Integrated Better Auth for seamless cross-domain authentication, featuring secure session management, fallback session-cookie handling and Google OAuth login.",
         "Implemented complex backend business logic, including atomic transaction-based view tracking, a recursive comment system, and multi-table statistical aggregation.",
         "Designed a responsive dashboard utilizing Next.js parallel routing and role-based administrative workspaces."
@@ -428,6 +448,15 @@ export const portfolioData = {
       title: "Hire Me (Job Portal)",
       image: "/projects/hireme.png",
       description: "Scalable backend for a job portal supporting recruiters and job seekers with secure workflows.",
+      brief: "A scalable backend architecture for a job portal built with TypeScript, Express.js, and MongoDB, featuring Role-Based Access Control and secure CV uploads.",
+      whyBuilt: "Hire Me was built to create a robust and secure foundation for job boards, exploring complex role-based access controls and secure file handling for sensitive documents like resumes.",
+      targetUsers: "Designed for recruiters posting job openings, job seekers applying with CVs, and administrators managing the platform ecosystem.",
+      challenges: "Implementing strict Role-Based Authentication with JWTs and handling multipart form data for secure resume uploads using Multer required precise configuration and type safety with Zod.",
+      futurePlans: "Future iterations will include real payment gateway integration, advanced applicant tracking system (ATS) features for recruiters, and automated email notifications.",
+      gallery: [
+        "/projects/hireme.png",
+        "/projects/hireme.png"
+      ],
       features: [
         "Developed a type-safe backend using TypeScript and Express.js, enforcing strict input validation and data consistency with Zod.",
         "Designed scalable APIs with search, filtering, sorting, and pagination for efficient job and application.",
@@ -441,8 +470,19 @@ export const portfolioData = {
       title: "Mental Health Tracker",
       image: "/projects/mental.png",
       description: "An interactive mental health application with mood tracking and journaling, incorporating a responsive UI, dark mode, and input validation.",
+      brief: "A self-care web application built with React and Vite that helps users monitor their mood, write journals, and explore mindfulness exercises.",
+      whyBuilt: "The Mental Health Tracker was built to provide a lightweight, accessible tool for individuals to cultivate self-awareness and practice daily mindfulness through guided journaling and breathing exercises.",
+      targetUsers: "Designed for individuals looking to improve their mental well-being, track emotional patterns over time, and practice proactive self-care.",
+      challenges: "Managing complex local state across various interactive components (like the emoji mood selector and journaling interface) while ensuring a highly responsive and comforting UI required careful React state management.",
+      futurePlans: "Future iterations will include robust Firebase integration for persistent cloud storage, personalized insights based on mood trends, and a larger library of guided breathing exercises.",
+      gallery: [
+        "/projects/mental.png",
+        "/projects/mental.png"
+      ],
       features: [
-        "Enhanced performance through state management and optimized client-side routing for smooth user experience."
+        "Developed an interactive mood tracking system featuring intuitive emoji selection and real-time state management.",
+        "Engineered a personalized daily journaling interface alongside guided mindfulness and breathing exercises.",
+        "Implemented a fully responsive UI with seamless client-side routing and comprehensive dark mode support for optimal accessibility."
       ],
       technologies: ["React.js", "Tailwind CSS", "React Router", "Vite"],
       githubFrontend: "https://github.com/Sani-Mohibur/mental-health-tracker",
@@ -452,9 +492,20 @@ export const portfolioData = {
       title: "Real-Time Chat App",
       image: "/projects/chat.png",
       description: "Real-time chat system with instant messaging and synchronization across clients.",
+      brief: "A real-time, bi-directional chat application powered by Node.js and Socket.IO, enabling instant messaging and live user activity tracking.",
+      whyBuilt: "Built to deeply explore WebSocket architecture, bidirectional event-driven communication, and managing concurrent active user states across multiple decoupled clients.",
+      targetUsers: "Designed as a robust communication foundation for teams or communities who require instant, reliable messaging with live status updates.",
+      challenges: "Managing state synchronization for concurrent users, broadcasting dynamic 'typing' indicators without causing network overload, and persisting chat history efficiently without a heavy database.",
+      futurePlans: "Future iterations will migrate the JSON-based chat history to a scalable database (like PostgreSQL), add secure user authentication, and support multimedia attachments.",
+      gallery: [
+        "/projects/chat.png",
+        "/projects/chat.png"
+      ],
       features: [
         "Built a real-time messaging architecture using Socket.IO for instant communication and persistent chat history.",
-        "Enabled message editing and deletion with dynamic, synchronized updates across all active sessions."
+        "Enabled message editing and deletion with dynamic, synchronized updates across all active sessions.",
+        "Engineered a live user activity management system that broadcasts dynamic 'typing' indicators and instant join/disconnect notifications.",
+        "Configured a secure Express.js backend with precise CORS middleware to seamlessly bridge the WebSocket server with a decoupled React frontend."
       ],
       technologies: ["React.js", "Tailwind CSS", "Node.js", "Express.js", "Socket.IO"],
       githubBackend: "https://github.com/Sani-Mohibur/chat-backend",
@@ -464,9 +515,20 @@ export const portfolioData = {
       title: "Ecommerce API",
       image: "/projects/ecommerce.png",
       description: "REST API for ecommerce platform handling products, carts, and authentication.",
+      brief: "A comprehensive backend REST API for a full-featured e-commerce application, built with Node.js, Express, and MongoDB.",
+      whyBuilt: "Built to develop a deep understanding of complex e-commerce workflows, including secure payment processing, user cart session management, and robust catalog filtering.",
+      targetUsers: "Designed as a scalable backend foundation for e-commerce businesses needing secure, reliable, and performant API services for their storefronts.",
+      challenges: "Implementing a secure and optimized shopping workflow (cart, wishlist, invoicing) while protecting the API against brute-force attacks and parameter pollution required extensive middleware configuration.",
+      futurePlans: "Future iterations will include full Stripe payment gateway integration, advanced inventory tracking algorithms, and a comprehensive admin dashboard for order fulfillment.",
+      gallery: [
+        "/projects/ecommerce.png",
+        "/projects/ecommerce.png"
+      ],
       features: [
         "Developed a complete product ecosystem including catalog management, filtering by category, brand, keyword, product reviews, sliders, and detailed product information.",
-        "Implemented a complete shopping workflow including cart, wishlist, and invoicing (order system), along with email notifications using Nodemailer and enhanced security using Helmet, CORS, and rate limiting."
+        "Implemented a complete shopping workflow including cart, wishlist, and invoicing (order system), along with automated email notifications using Nodemailer.",
+        "Engineered a secure user authentication and profile management system utilizing JSON Web Tokens (JWT) for stateless session handling.",
+        "Fortified the API against common web vulnerabilities by integrating Helmet, Express Rate Limit, and HTTP Parameter Pollution (HPP) protections."
       ],
       technologies: ["Node.js", "Express.js", "MongoDB", "Mongoose", "JWT"],
       githubBackend: "https://github.com/Sani-Mohibur/Ecommerce-Project-API",
