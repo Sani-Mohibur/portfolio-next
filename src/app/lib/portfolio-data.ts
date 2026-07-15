@@ -5,8 +5,11 @@ export const portfolioData = {
     tagline: "Building scalable, secure, and user-focused digital experiences.",
     intro: "Turning ideas into meaningful digital experiences through thoughtful design, clean development, and a passion for creating products people enjoy using.",
     education: "BSc in Computer Science & Engineering from AIUB",
-    about:
-      "I'm Mohibur Rahman Sani, a Computer Science graduate specializing in Software Engineering with a strong foundation in full-stack web development. Proficient in Next.js, MERN Stack, TypeScript, PostgreSQL, and Prisma. Experienced in building scalable web applications, authentication systems, Google OAuth integration, real-time applications using Socket.IO, and secure payment integration with Stripe. Adept at problem-solving and writing clean, scalable code.",
+    z: [
+      "I'm Mohibur Rahman Sani, a Computer Science graduate specializing in Software Engineering and a Full-Stack Developer passionate about building modern, scalable, and user-focused web applications. I work with Next.js, MERN Stack, TypeScript, PostgreSQL, Prisma, authentication, RESTful APIs, Socket.IO, and Stripe integration, focusing on secure, scalable, and high-performance applications.",
+      "Beyond development, I enjoy exploring emerging technologies, studying software architecture, and sharpening my problem-solving skills. I believe consistency, curiosity, and attention to detail are essential to becoming a better software engineer, and I bring those qualities to every project.",
+      "I take pride in writing clean, maintainable code and architecting resilient backend systems that scale elegantly, ensuring that every solution I deliver is optimized for both performance and user experience."
+    ],
     location: "Dhaka, Bangladesh",
   },
 
@@ -37,13 +40,6 @@ export const portfolioData = {
       featured: true,
     },
     {
-      name: "Go",
-      icon: "logos:go",
-      category: "Programming Languages",
-      url: "https://go.dev/",
-      featured: true,
-    },
-    {
       name: "C++",
       icon: "logos:c-plusplus",
       category: "Programming Languages",
@@ -51,12 +47,20 @@ export const portfolioData = {
       featured: true,
     },
     {
-      name: "Java",
-      icon: "logos:java",
+      name: "Go",
+      icon: "logos:go",
       category: "Programming Languages",
-      url: "https://www.java.com/",
+      url: "https://go.dev/",
       featured: true,
     },
+
+    // {
+    //   name: "Java",
+    //   icon: "logos:java",
+    //   category: "Programming Languages",
+    //   url: "https://www.java.com/",
+    //   featured: true,
+    // },
 
     // Frontend
     {
@@ -206,13 +210,13 @@ export const portfolioData = {
     },
 
     // AI
-    {
-      name: "OpenAI SDK",
-      icon: "simple-icons:openai",
-      category: "AI",
-      url: "https://platform.openai.com/",
-      featured: true,
-    },
+    // {
+    //   name: "OpenAI SDK",
+    //   icon: "simple-icons:openai",
+    //   category: "AI",
+    //   url: "https://platform.openai.com/",
+    //   featured: true,
+    // },
 
     // Security
     {
@@ -243,13 +247,13 @@ export const portfolioData = {
       url: "https://zod.dev/",
       featured: true,
     },
-    {
-      name: "RBAC",
-      icon: "lucide:shield-check",
-      category: "Security",
-      url: "https://en.wikipedia.org/wiki/Role-based_access_control",
-      featured: true,
-    },
+    // {
+    //   name: "RBAC",
+    //   icon: "lucide:shield-check",
+    //   category: "Security",
+    //   url: "https://en.wikipedia.org/wiki/Role-based_access_control",
+    //   featured: true,
+    // },
 
     // Third-Party Integrations
     {
@@ -386,8 +390,17 @@ export const portfolioData = {
   projects: [
     {
       title: "SkillBridge (Tutor Marketplace)",
-      image: "/skillbridge.png",
+      image: "/projects/skillbridge.png",
       description: "A modern tutor-student marketplace UI utilizing Next.js 16 App Router, ensuring a responsive and accessible mobile-first design.",
+      brief: "A modern, full-featured tutor-student marketplace built with Next.js 16, TypeScript, and Tailwind CSS — featuring Stripe Checkout, Cloudinary integrations, and robust authentication.",
+      whyBuilt: "SkillBridge was developed to bridge the gap between students and qualified tutors through a seamless digital platform. It aims to simplify the process of discovering tutors, managing availability slots, and handling secure payments all in one place.",
+      targetUsers: "Designed for students seeking quality education, tutors looking to manage their schedules and monetize their skills, and administrators overseeing the platform's ecosystem.",
+      challenges: "Implementing a unified, role-based dashboard using Next.js parallel routing and handling complex multi-stage booking lifecycles with Stripe payment synchronization required careful architectural planning.",
+      futurePlans: "Future iterations will include real-time chat between tutors and students, video conferencing integration for remote sessions, and advanced analytics for tutor earnings and student progress.",
+      gallery: [
+        "/projects/skillbridge.png",
+        "/projects/skillbridge.png" // Replace with actual extra images
+      ],
       features: [
         "Implemented role-based dashboards (Student, Tutor, Admin) using Next.js parallel routing, secured by client-side session management.",
         "Developed core marketplace features including dynamic availability slots, a multi-stage booking lifecycle, automated review aggregations, and an administrative moderation panel."
@@ -399,7 +412,7 @@ export const portfolioData = {
     },
     {
       title: "Thought Space (Blog Platform)",
-      image: "/thoughtspace.png",
+      image: "/projects/thoughtspace.png",
       description: "A full-stack blog platform with a modular split-schema database architecture using Prisma and PostgreSQL.",
       features: [
         "Integrated Better Auth for seamless cross-domain authentication, featuring secure session management, fallback session-cookie handling and Google OAuth login.",
@@ -413,7 +426,7 @@ export const portfolioData = {
     },
     {
       title: "Hire Me (Job Portal)",
-      image: "/hireme.png",
+      image: "/projects/hireme.png",
       description: "Scalable backend for a job portal supporting recruiters and job seekers with secure workflows.",
       features: [
         "Developed a type-safe backend using TypeScript and Express.js, enforcing strict input validation and data consistency with Zod.",
@@ -426,7 +439,7 @@ export const portfolioData = {
     },
     {
       title: "Mental Health Tracker",
-      image: "/mental.png",
+      image: "/projects/mental.png",
       description: "An interactive mental health application with mood tracking and journaling, incorporating a responsive UI, dark mode, and input validation.",
       features: [
         "Enhanced performance through state management and optimized client-side routing for smooth user experience."
@@ -437,7 +450,7 @@ export const portfolioData = {
     },
     {
       title: "Real-Time Chat App",
-      image: "/chat.png",
+      image: "/projects/chat.png",
       description: "Real-time chat system with instant messaging and synchronization across clients.",
       features: [
         "Built a real-time messaging architecture using Socket.IO for instant communication and persistent chat history.",
@@ -449,11 +462,11 @@ export const portfolioData = {
     },
     {
       title: "Ecommerce API",
-      image: "/ecommerce.png",
+      image: "/projects/ecommerce.png",
       description: "REST API for ecommerce platform handling products, carts, and authentication.",
       features: [
         "Developed a complete product ecosystem including catalog management, filtering by category, brand, keyword, product reviews, sliders, and detailed product information.",
-        "•Implemented a complete shopping workflow including cart, wishlist, and invoicing (order system), along with email notifications using Nodemailer and enhanced security using Helmet, CORS, and rate limiting."
+        "Implemented a complete shopping workflow including cart, wishlist, and invoicing (order system), along with email notifications using Nodemailer and enhanced security using Helmet, CORS, and rate limiting."
       ],
       technologies: ["Node.js", "Express.js", "MongoDB", "Mongoose", "JWT"],
       githubBackend: "https://github.com/Sani-Mohibur/Ecommerce-Project-API",
@@ -462,7 +475,7 @@ export const portfolioData = {
   ],
 
   resume: {
-    downloadUrl: "/SaniMohibur_CV.pdf",
+    downloadUrl: "/Mohibur_Rahman_Sani_CV.pdf",
     downloadName: "Mohibur_Rahman_Sani_CV.pdf",
   },
 };

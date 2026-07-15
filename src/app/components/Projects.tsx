@@ -1,42 +1,24 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { portfolioData } from "../lib/portfolio-data";
 import { GithubIcon } from "./icons";
 import Image from "next/image";
 
-// SVG for external link (Live Demo)
-const ExternalLinkIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    {...props}
-  >
-    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-    <polyline points="15 3 21 3 21 9" />
-    <line x1="10" x2="21" y1="14" y2="3" />
-  </svg>
-);
+import { ExternalLink, Info } from "lucide-react";
 
-const ProjectCard = ({ project, index }: { project: any; index: number }) => {
+import ProjectDetailsModal from "./ProjectDetailsModal";
+
+
+
+/* ─── Project Card ─── */
+const ProjectCard = ({ project, index, onOpenDetails }: { project: any; index: number; onOpenDetails: () => void }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [imageError, setImageError] = useState(!project.image);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="bg-white dark:bg-gray-900 rounded-3xl overflow-hidden shadow-[var(--shadow-premium)] dark:shadow-[var(--shadow-premium-dark)] border border-gray-100 dark:border-gray-800 flex flex-col h-full transition-shadow duration-300 hover:shadow-2xl hover:shadow-indigo-500/20"
+    <div
+      className="bg-white dark:bg-gray-900 rounded-3xl overflow-hidden shadow-[var(--shadow-premium)] dark:shadow-[var(--shadow-premium-dark)] border border-gray-100 dark:border-gray-800 flex flex-col h-full transition-shadow duration-300 hover:shadow-2xl"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -45,11 +27,12 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
           <Image
             src={project.image}
             fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            loading="lazy"
             alt={`${project.title} application interface`}
             onError={() => setImageError(true)}
-            className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out ${
-              isHovered ? "scale-110" : "scale-100"
-            }`}
+            className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out ${isHovered ? "scale-110" : "scale-100"
+              }`}
           />
         ) : (
           <div className="p-6 text-center w-full">
@@ -83,39 +66,49 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-wrap gap-3">
+        <div className="flex items-center gap-3">
           {project.live && (
             <a
               href={project.live}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 flex justify-center items-center gap-2 py-2.5 rounded-xl bg-gray-900/90 dark:bg-white/90 backdrop-blur-sm text-white dark:text-gray-900 font-medium hover:bg-indigo-600 dark:hover:bg-indigo-50 transition-all shadow-lg hover:shadow-indigo-500/30"
+              className="flex-1 flex justify-center items-center gap-2 py-2.5 rounded-xl bg-gray-900/90 dark:bg-white/90 backdrop-blur-sm text-white dark:text-gray-900 font-medium hover:bg-indigo-600 dark:hover:bg-indigo-50 transition-all shadow-lg hover:shadow-xl"
             >
-              <ExternalLinkIcon className="w-4 h-4" />
+              <ExternalLink className="w-4 h-4" />
               Live Demo
             </a>
           )}
+
+          <button
+            onClick={onOpenDetails}
+            aria-label={`View details for ${project.title}`}
+            className="cursor-pointer flex-1 flex justify-center items-center gap-2 py-2.5 rounded-xl border border-gray-200/50 dark:border-white/10 backdrop-blur-sm bg-white/50 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600 transition-all"
+          >
+            <Info className="w-4 h-4" />
+            Details
+          </button>
 
           {(project.githubFrontend || project.githubBackend) && (
             <a
               href={project.githubFrontend || project.githubBackend}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 flex justify-center items-center gap-2 py-2.5 rounded-xl border border-gray-200/50 dark:border-white/10 backdrop-blur-sm bg-white/50 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-all"
+              aria-label={`View source code for ${project.title}`}
+              className="shrink-0 flex items-center justify-center w-11 h-11 rounded-xl border border-gray-200/50 dark:border-white/10 backdrop-blur-sm bg-white/50 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all"
             >
               <GithubIcon className="w-4 h-4" />
-              Source Code
             </a>
           )}
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
 export default function Projects() {
   const { projects } = portfolioData;
   const [visibleCount, setVisibleCount] = useState(2); // Show 2 initially
+  const [selectedProject, setSelectedProject] = useState<any | null>(null);
 
   const visibleProjects = projects.slice(0, visibleCount);
   const hasMore = visibleCount < projects.length;
@@ -129,21 +122,14 @@ export default function Projects() {
         <div className="w-20 h-1.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full" />
       </div>
 
-      {/* Restored 2-column grid and added max-w-6xl for better PC centering */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto">
-        <AnimatePresence mode="popLayout">
-          {visibleProjects.map((project, index) => (
-            <ProjectCard key={project.title} project={project} index={index} />
-          ))}
-        </AnimatePresence>
+        {visibleProjects.map((project, index) => (
+          <ProjectCard key={project.title} project={project} index={index} onOpenDetails={() => setSelectedProject(project)} />
+        ))}
       </div>
 
       {hasMore && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="flex justify-center mt-12"
-        >
+        <div className="flex justify-center mt-12">
           <button
             onClick={() =>
               setVisibleCount((prev) => Math.min(prev + 2, projects.length))
@@ -152,8 +138,15 @@ export default function Projects() {
           >
             Load More Projects
           </button>
-        </motion.div>
+        </div>
       )}
+
+      {/* Global Project Modal */}
+      <ProjectDetailsModal
+        project={selectedProject}
+        isOpen={!!selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
     </section>
   );
 }
