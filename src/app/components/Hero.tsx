@@ -147,25 +147,36 @@ export default function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* Right Image */}
+        {/* Right Image — Premium Effects */}
         <motion.div
           className="lg:col-span-5 flex justify-center mt-12 lg:mt-0 relative"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
         >
-          {/* The actual glow - Using absolute positioning within the padded area */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500 to-purple-600 rounded-full blur-3xl opacity-30 animate-pulse" />
+          <div className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96">
+            {/* Premium Breathing Glow */}
+            <div className="absolute inset-0 rounded-full bg-indigo-500/15 dark:bg-indigo-400/15 blur-2xl animate-[premium-glow_4.5s_ease-in-out_infinite] transition-colors duration-700 pointer-events-none" />
 
-          {/* The Image - Squircle shape maintained */}
-          <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 rounded-[3rem] overflow-hidden border-4 border-white dark:border-gray-800 shadow-[var(--shadow-premium)] dark:shadow-[var(--shadow-premium-dark)]">
-            <Image
-              src="/profile-placeholder.webp"
-              fill
-              priority
-              alt={personal.name}
-              className="w-full h-full object-cover"
-            />
+            {/* Ripple Ring Animation */}
+            <div className="absolute inset-0 rounded-full border border-indigo-400/30 dark:border-indigo-300/30 animate-[premium-ripple_4s_cubic-bezier(0.0,0.2,0.8,1)_infinite] pointer-events-none" />
+
+            <div className="absolute inset-0 rounded-full border border-indigo-400/30 dark:border-indigo-300/30 animate-[premium-ripple_4s_cubic-bezier(0.0,0.2,0.8,1)_infinite] [animation-delay:2s] pointer-events-none" />
+
+            {/* Image Wrapper */}
+            <div className="relative w-full h-full z-10">
+              {/* Your image container (UNCHANGED) */}
+              <div className="bg-stone-200 dark:bg-[#0d1117]/80 relative w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 rounded-full overflow-hidden border-4 border-white dark:border-gray-800 shadow-[var(--shadow-premium)] dark:shadow-[var(--shadow-premium-dark)]">
+                <Image
+                  src="/profile/me-transparent.png"
+                  fill
+                  sizes="(max-width: 640px) 18rem, (max-width: 768px) 20rem, 24rem"
+                  priority
+                  alt={personal.name}
+                  className="w-full h-full object-cover brightness-[1] dark:brightness-[.6] contrast-[1] dark:contrast-[1.2] absolute inset-0"
+                />
+              </div>
+            </div>
           </div>
         </motion.div>
       </div>
