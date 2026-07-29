@@ -8,6 +8,7 @@ import {
   useScroll,
   useMotionValueEvent,
 } from "framer-motion";
+import { CodeXml } from "lucide-react";
 
 interface NavLink {
   name: string;
@@ -20,6 +21,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [visible, setVisible] = useState(true);
   const [activeSection, setActiveSection] = useState("about");
+  const [showDevTooltip, setShowDevTooltip] = useState(false);
 
   const { scrollY } = useScroll();
   const lastScrollY = useRef(0);
@@ -132,6 +134,52 @@ export default function Navbar() {
                   </a>
                 );
               })}
+            </div>
+
+            {/* Developer Console Trigger */}
+            <div
+              className="relative"
+              onMouseEnter={() => setShowDevTooltip(true)}
+              onMouseLeave={() => setShowDevTooltip(false)}
+            >
+              <AnimatePresence>
+                {showDevTooltip && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                    className="absolute top-[calc(100%+0.75rem)] left-1/2 -translate-x-1/2 z-[50] pointer-events-none"
+                  >
+                    <div
+                      className="relative px-3.5 py-2 rounded-xl text-xs font-medium text-cyan-100 whitespace-nowrap border border-white/[0.08]"
+                      style={{
+                        background: "rgba(10, 14, 39, 0.75)",
+                        backdropFilter: "blur(12px)",
+                        WebkitBackdropFilter: "blur(12px)",
+                        boxShadow:
+                          "0 4px 20px rgba(34,211,238,0.1), 0 0 0 1px rgba(139,92,246,0.1)",
+                      }}
+                    >
+                      Developer Console
+                      <div
+                        className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-2.5 h-2.5 rotate-45 border-t border-l border-white/[0.08]"
+                        style={{ background: "rgba(10, 14, 39, 0.75)" }}
+                      />
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              <button
+                onClick={() => {
+                  setShowDevTooltip(false);
+                  window.dispatchEvent(new Event("open-dev-console"));
+                }}
+                className="cursor-pointer p-2.5 rounded-xl border border-gray-200/40 dark:border-gray-700/30 bg-white/50 dark:bg-gray-800/30 backdrop-blur-md shadow-sm text-gray-700 dark:text-gray-300 hover:scale-105 transition-all duration-300 flex items-center justify-center shrink-0 overflow-hidden"
+                aria-label="Open Developer Console"
+              >
+                <CodeXml className="w-4 h-4" />
+              </button>
             </div>
 
             {/* Premium Theme Toggle */}

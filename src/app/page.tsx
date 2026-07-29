@@ -21,6 +21,11 @@ const SpaceBackground = dynamic(() => import("./components/SpaceBackground"), {
   ssr: false,
 });
 
+// Lazy-load the developer console
+const DevConsole = dynamic(() => import("./components/console/DevConsole"), {
+  ssr: false,
+});
+
 export default function Home() {
   return (
     <ThemeProvider>
@@ -53,6 +58,7 @@ export default function Home() {
       <Footer />
       <ChatButton />
       <BackToTop />
+      <DevConsole />
     </ThemeProvider>
   );
 }
