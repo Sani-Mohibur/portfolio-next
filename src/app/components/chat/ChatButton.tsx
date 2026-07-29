@@ -162,55 +162,56 @@ export default function ChatButton() {
       {/* ── Tooltip ── */}
       <AnimatePresence>
         {tooltipVisible && (
-          <motion.div
-            initial={{ opacity: 0, x: 8 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 8 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            className="fixed bottom-7 right-[5rem] sm:right-[5.5rem] z-[60]
-              pointer-events-none select-none"
-          >
-            <div
-              className="relative px-3.5 py-2 rounded-xl text-xs font-medium
-                text-cyan-100 whitespace-nowrap
-                border border-white/[0.08]"
-              style={{
-                background: "rgba(10, 14, 39, 0.75)",
-                backdropFilter: "blur(12px)",
-                WebkitBackdropFilter: "blur(12px)",
-                boxShadow:
-                  "0 4px 20px rgba(34,211,238,0.1), 0 0 0 1px rgba(139,92,246,0.1)",
-              }}
+          <div className="fixed bottom-7 right-[5rem] sm:right-[5.5rem] z-[60] pointer-events-none select-none">
+            <motion.div
+              initial={{ opacity: 0, x: 8 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 8 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
             >
-              <span
-                className="mr-1.5 inline-block"
-                style={{ fontSize: "10px" }}
-              >
-                ✦
-              </span>
-              Ask AI about my portfolio
-              {/* Arrow pointing right toward button */}
               <div
-                className="absolute top-1/2 -right-1.5 -translate-y-1/2 w-2.5 h-2.5
-                  rotate-45 border-r border-b border-white/[0.08]"
+                className="relative px-3.5 py-2 rounded-xl text-xs font-medium
+                  text-cyan-100 whitespace-nowrap
+                  border border-white/[0.08]"
                 style={{
                   background: "rgba(10, 14, 39, 0.75)",
+                  backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
+                  boxShadow:
+                    "0 4px 20px rgba(34,211,238,0.1), 0 0 0 1px rgba(139,92,246,0.1)",
                 }}
-              />
-            </div>
-          </motion.div>
+              >
+                <span
+                  className="mr-1.5 inline-block"
+                  style={{ fontSize: "10px" }}
+                >
+                  ✦
+                </span>
+                Ask AI about my portfolio
+                {/* Arrow pointing right toward button */}
+                <div
+                  className="absolute top-1/2 -right-1.5 -translate-y-1/2 w-2.5 h-2.5
+                    rotate-45 border-r border-b border-white/[0.08]"
+                  style={{
+                    background: "rgba(10, 14, 39, 0.75)",
+                  }}
+                />
+              </div>
+            </motion.div>
+          </div>
         )}
       </AnimatePresence>
 
       {/* ── AI Orb Container (handles floating animation) ── */}
-      <div
-        className="fixed bottom-5 right-4 sm:right-6 z-[60]"
-        style={{
-          animation: isOpen ? "none" : "ai-orb-float 4s ease-in-out infinite",
-        }}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
+      <div className="fixed bottom-5 right-4 sm:right-6 z-[60]">
+        <div
+          className="relative"
+          style={{
+            animation: isOpen ? "none" : "ai-orb-float 4s ease-in-out infinite",
+          }}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
         {/* ── Orbiting Ring (visible when closed) ── */}
         {!isOpen && (
           <div
@@ -296,6 +297,7 @@ export default function ChatButton() {
             )}
           </AnimatePresence>
         </motion.button>
+        </div>
       </div>
     </>
   );
