@@ -10,8 +10,10 @@ import {
   TerminalIcon as Terminal,
   DatabaseIcon as Database,
   ServerIcon as Server,
+  MouseIcon,
+  ChevronDownIcon,
 } from "./icons";
-import { useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 
 export default function Hero() {
@@ -37,14 +39,45 @@ export default function Hero() {
     },
   };
 
+  const [isAtTop, setIsAtTop] = useState(true);
+  const [fitsViewport, setFitsViewport] = useState(true);
+  const heroRef = useRef<HTMLElement>(null);
+
   useEffect(() => {
-    console.log(window.innerWidth, window.innerHeight);
+    const handleScroll = () => {
+      setIsAtTop(window.scrollY < 50);
+    };
+
+    const checkFit = () => {
+      if (heroRef.current) {
+        // If the scrollHeight is significantly larger than innerHeight, it's overflowing
+        // We use a small tolerance (e.g., 50px) to account for mobile browser UI quirks
+        setFitsViewport(heroRef.current.scrollHeight <= window.innerHeight + 50);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", checkFit);
+    
+    // Initial check
+    handleScroll();
+    // Allow a small delay for layout to settle before checking fit
+    const timeout = setTimeout(checkFit, 100);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", checkFit);
+      clearTimeout(timeout);
+    };
   }, []);
+
+  const showIndicator = isAtTop && fitsViewport;
 
   return (
     <section
       id="hero"
-      className="select-none relative min-h-0 flex items-center pt-40 lg:pt-56 pb-16 lg:pb-24 overflow-visible"
+      ref={heroRef}
+      className="select-none relative min-h-[100dvh] flex flex-col justify-center pt-32 sm:pt-28 lg:pt-24 pb-20 sm:pb-24 lg:pb-32 overflow-visible"
     >
       {/* Animated Background Elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden"></div>
@@ -180,6 +213,33 @@ export default function Hero() {
           </div>
         </motion.div>
       </div>
+
+      {/* Premium Scroll Indicator */}
+      <motion.div
+        className={`absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 flex flex-col items-center transition-opacity duration-500 ${showIndicator ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: showIndicator ? 1 : 0, y: showIndicator ? 0 : 10 }}
+        transition={{ duration: 0.5, delay: showIndicator ? 1.2 : 0, ease: "easeOut" }}
+      >
+        <a
+          href="#about"
+          onClick={(e) => {
+            e.preventDefault();
+            document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
+          }}
+          className="flex flex-col items-center gap-2 text-gray-400 hover:text-indigo-600 dark:text-gray-500 dark:hover:text-indigo-400 transition-colors group"
+          aria-label="Scroll to About section"
+        >
+          <span className="text-[10px] font-semibold uppercase tracking-widest opacity-60 group-hover:opacity-100 transition-opacity">Scroll</span>
+          <motion.div 
+            className="p-2 rounded-full border border-gray-200 dark:border-gray-800 shadow-sm bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm group-hover:border-indigo-500/30 dark:group-hover:border-indigo-400/30 transition-all"
+            animate={{ y: [0, 6, 0] }}
+            transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+          >
+             <ChevronDownIcon size={18} />
+          </motion.div>
+        </a>
+      </motion.div>
     </section>
   );
 }
