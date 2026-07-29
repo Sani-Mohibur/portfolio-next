@@ -58,7 +58,6 @@ export default function Hero() {
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("resize", checkFit);
-    
     // Initial check
     handleScroll();
     // Allow a small delay for layout to settle before checking fit
@@ -231,12 +230,12 @@ export default function Hero() {
           aria-label="Scroll to About section"
         >
           <span className="text-[10px] font-semibold uppercase tracking-widest opacity-60 group-hover:opacity-100 transition-opacity">Scroll</span>
-          <motion.div 
+          <motion.div
             className="p-2 rounded-full border border-gray-200 dark:border-gray-800 shadow-sm bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm group-hover:border-indigo-500/30 dark:group-hover:border-indigo-400/30 transition-all"
             animate={{ y: [0, 6, 0] }}
             transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
           >
-             <ChevronDownIcon size={18} />
+            <ChevronDownIcon size={18} />
           </motion.div>
         </a>
       </motion.div>

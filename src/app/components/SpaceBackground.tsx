@@ -3,6 +3,7 @@
 import React, { useState, useEffect, type FC } from "react";
 import { Canvas } from "@react-three/fiber";
 import { AdaptiveDpr, AdaptiveEvents, Preload } from "@react-three/drei";
+import { useTheme } from "./ThemeContext";
 import { useQualityTier } from "./space/useQualityTier";
 import { QUALITY_CONFIGS } from "./space/constants";
 import { sharedMouse, sharedScroll } from "./space/sharedState";
@@ -65,6 +66,7 @@ const SpaceBackground: FC = () => {
   const [shouldRender3D, setShouldRender3D] = useState(false);
   const qualityTier = useQualityTier();
   const config = QUALITY_CONFIGS[qualityTier];
+  const { dark } = useTheme();
 
   useEffect(() => {
     // Check prefers-reduced-motion
@@ -108,9 +110,11 @@ const SpaceBackground: FC = () => {
         inset: 0,
         zIndex: -10,
         pointerEvents: "none",
+        visibility: dark ? "visible" : "hidden",
       }}
     >
       <Canvas
+        frameloop={dark ? "always" : "demand"}
         dpr={[1, 1.5]}
         gl={{
           antialias: false,

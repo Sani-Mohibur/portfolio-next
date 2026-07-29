@@ -74,7 +74,7 @@ export default function About() {
 
 
           {/* Core Focus Badges */}
-          <div className="flex flex-wrap lg:flex-nowrap gap-3 pt-6 border-t border-gray-200 dark:border-gray-800 w-full">
+          <div className="flex flex-wrap xl:flex-nowrap gap-3 pt-6 border-t border-gray-200 dark:border-gray-800 w-full">
             {[
               {
                 title: "Clean Code",
@@ -111,7 +111,7 @@ export default function About() {
             ].map((card, i) => (
               <div
                 key={i}
-                className="flex flex-1 lg:flex-none items-center justify-center lg:justify-start gap-1.5 px-3.5 py-2 rounded-xl border border-gray-200 dark:border-gray-800/60 bg-white/5 dark:bg-gray-900/30 backdrop-blur-sm shadow-sm transition-all duration-300 hover:scale-[1.05] hover:border-indigo-500/30 select-none"
+                className="flex flex-1 xl:flex-none items-center justify-center xl:justify-start gap-1.5 px-3.5 py-2 rounded-xl border border-gray-200 dark:border-gray-800/60 bg-white/5 dark:bg-gray-900/30 backdrop-blur-sm shadow-sm transition-all duration-300 hover:scale-[1.05] hover:border-indigo-500/30 select-none"
               >
                 {card.icon}
                 <span className="font-medium text-gray-800 dark:text-gray-200 text-sm tracking-wide whitespace-nowrap">
