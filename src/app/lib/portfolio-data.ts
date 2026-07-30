@@ -486,7 +486,7 @@ export const portfolioData = {
       ],
       technologies: ["React.js", "Tailwind CSS", "React Router", "Vite"],
       githubFrontend: "https://github.com/Sani-Mohibur/mental-health-tracker",
-      live: "https://mental-health-tracker-two.vercel.app/"
+      live: "https://mental-health-tracker-two.vercel.app"
     },
     {
       title: "Real-Time Chat App",

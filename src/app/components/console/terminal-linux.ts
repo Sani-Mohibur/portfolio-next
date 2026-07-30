@@ -84,9 +84,6 @@ const FS: DirEntry = createDir({
       }),
       "contact": createDir({
         "contact.txt": createFile(`Email: ${portfolioData.contact.email}\nPhone: ${portfolioData.contact.phone}\nLinkedIn: ${portfolioData.contact.linkedin}\nGitHub: ${portfolioData.contact.github}`)
-      }),
-      "resume": createDir({
-        "resume.txt": createFile(`Download my full resume at:\n${portfolioData.resume.downloadUrl}`)
       })
     }, "drwxr-xr-x", "root")
   }, "drwxr-xr-x", "root"),
