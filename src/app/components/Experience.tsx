@@ -1,125 +1,127 @@
-// "use client";
+"use client";
 
-// import React from "react";
-// import { motion, Variants } from "framer-motion";
-// import { portfolioData } from "../lib/portfolio-data";
-// import { TerminalIcon } from "./icons";
+import { motion, Variants } from "framer-motion";
+import { portfolioData } from "../lib/portfolio-data";
+import { Briefcase, GraduationCap, Calendar, MapPin } from "lucide-react";
 
-// // We can reuse or create specific icons for Education vs Experience.
-// const BriefcaseIcon = (props: React.SVGProps<SVGSVGElement>) => (
-//   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-//     <rect width="20" height="14" x="2" y="7" rx="2" ry="2" />
-//     <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
-//   </svg>
-// );
+export default function Experience() {
+    const { experience, education } = portfolioData;
 
-// const GraduationCapIcon = (props: React.SVGProps<SVGSVGElement>) => (
-//   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-//     <path d="M21.42 10.922a2 2 0 0 1-.01 3.243l-8.5 5.5a2 2 0 0 1-2.14 0l-8.5-5.5a2 2 0 0 1-.01-3.243l8.5-5.32a2 2 0 0 1 2.15 0l8.5 5.32z" />
-//     <path d="M22 10v6" />
-//     <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" />
-//   </svg>
-// );
+    const containerVariants: Variants = {
+        hidden: {},
+        visible: {
+            transition: { staggerChildren: 0.15 },
+        },
+    };
 
-// export default function Experience() {
-//   const { experience, education } = portfolioData;
+    const itemVariants: Variants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+    };
 
-//   const containerVariants: Variants = {
-//     hidden: {},
-//     visible: {
-//       transition: { staggerChildren: 0.2 },
-//     },
-//   };
+    return (
+        <section id="experience" className=" select-none py-16 lg:py-20 relative overflow-hidden">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex flex-col items-center justify-center mb-16 text-center">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5 }}
+                    >
+                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                            Experience & Education
+                        </h2>
+                        <div className="w-24 h-1.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full mx-auto" />
+                    </motion.div>
+                </div>
 
-//   const itemVariants: Variants = {
-//     hidden: { opacity: 0, x: -20 },
-//     visible: { opacity: 1, x: 0, transition: { duration: 0.5, ease: "easeOut" } },
-//   };
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-6 relative">
+                    {/* Work Experience */}
+                    <div>
+                        <div className="flex items-center gap-4 mb-10">
+                            <div className="p-3 rounded-2xl bg-indigo-100 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 ring-1 ring-indigo-200 dark:ring-indigo-500/20 shadow-sm">
+                                <Briefcase className="w-6 h-6" />
+                            </div>
+                            <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Professional Experience</h3>
+                        </div>
 
-//   return (
-//     <section id="experience" className="py-16 lg:py-20 relative">
-//       <div className="flex flex-col items-center justify-center mb-16 text-center">
-//         <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-//           Experience & Education
-//         </h2>
-//         <div className="w-20 h-1.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full" />
-//       </div>
+                        <motion.div
+                            variants={containerVariants}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true, margin: "-50px" }}
+                            className="space-y-10 relative before:absolute before:inset-0 before:ml-[1.125rem] before:-translate-x-px before:h-full before:w-0.5 before:bg-gradient-to-b before:from-indigo-500/50 before:via-gray-200 dark:before:via-gray-800 before:to-transparent"
+                        >
+                            {experience.map((exp, idx) => (
+                                <motion.div key={idx} variants={itemVariants} className="relative pl-12 group">
+                                    {/* Glowing Timeline Dot */}
+                                    <div className="absolute left-[0.5625rem] top-2 w-4 h-4 rounded-full bg-white dark:bg-gray-950 border-4 border-indigo-500 ring-4 ring-white dark:ring-gray-950 shadow-sm group-hover:scale-125 group-hover:border-indigo-400 transition-transform duration-300 z-10" />
 
-//       <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-8 relative">
-//         {/* Work Experience */}
-//         <div>
-//           <div className="flex items-center gap-3 mb-8">
-//             <div className="p-2.5 rounded-xl bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400">
-//               <BriefcaseIcon className="w-6 h-6" />
-//             </div>
-//             <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Professional Experience</h3>
-//           </div>
+                                    <div className="bg-white/60 dark:bg-gray-900/40 backdrop-blur-xl p-6 md:p-8 rounded-xl shadow-sm border border-gray-200/50 dark:border-gray-800/50 hover:shadow-xl hover:shadow-indigo-500/5 hover:-translate-y-1 transition-all duration-300">
+                                        <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-2">{exp.role}</h4>
+                                        <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mb-6">
+                                            <span className="font-semibold text-indigo-600 dark:text-indigo-400">{exp.company}</span>
+                                            <div className="flex items-center gap-1.5">
+                                                <Calendar className="w-4 h-4" />
+                                                <span>{exp.duration}</span>
+                                            </div>
+                                            <div className="flex items-center gap-1.5">
+                                                <MapPin className="w-4 h-4" />
+                                                <span>{exp.location || "Dhaka, Bangladesh"}</span>
+                                            </div>
+                                        </div>
+                                        <ul className="space-y-3 text-gray-600 dark:text-gray-300 text-sm md:text-base">
+                                            {exp.responsibilities.map((task, i) => (
+                                                <li key={i} className="flex gap-3 leading-relaxed">
+                                                    <span className="text-indigo-500 mt-1 shrink-0">◆</span>
+                                                    <span>{task}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </motion.div>
+                    </div>
 
-//           <motion.div
-//             variants={containerVariants}
-//             initial="hidden"
-//             whileInView="visible"
-//             viewport={{ once: true, margin: "-50px" }}
-//             className="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-gray-200 dark:before:via-gray-800 before:to-transparent"
-//           >
-//             {experience.map((exp, idx) => (
-//               <motion.div key={idx} variants={itemVariants} className="relative pl-12 md:pl-10">
-//                 {/* Timeline Dot */}
-//                 <div className="absolute left-3.5 md:left-2 top-1.5 w-3 h-3 rounded-full bg-indigo-600 ring-4 ring-white dark:ring-gray-950 shadow-sm" />
-                
-//                 <div className="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 hover:shadow-md transition-shadow">
-//                   <span className="text-sm font-semibold text-indigo-600 dark:text-indigo-400 block mb-1">
-//                     {exp.duration}
-//                   </span>
-//                   <h4 className="text-lg font-bold text-gray-900 dark:text-white">{exp.role}</h4>
-//                   <span className="text-sm text-gray-500 dark:text-gray-400 block mb-4">{exp.company} • {exp.location}</span>
-//                   <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
-//                     {exp.responsibilities.map((task, i) => (
-//                       <li key={i} className="flex gap-2">
-//                         <span className="text-indigo-500 mt-0.5">•</span>
-//                         <span>{task}</span>
-//                       </li>
-//                     ))}
-//                   </ul>
-//                 </div>
-//               </motion.div>
-//             ))}
-//           </motion.div>
-//         </div>
+                    {/* Education */}
+                    <div>
+                        <div className="flex items-center gap-4 mb-10">
+                            <div className="p-3 rounded-2xl bg-purple-100 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400 ring-1 ring-purple-200 dark:ring-purple-500/20 shadow-sm">
+                                <GraduationCap className="w-6 h-6" />
+                            </div>
+                            <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Education</h3>
+                        </div>
 
-//         {/* Education */}
-//         <div>
-//           <div className="flex items-center gap-3 mb-8">
-//             <div className="p-2.5 rounded-xl bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400">
-//               <GraduationCapIcon className="w-6 h-6" />
-//             </div>
-//             <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Education</h3>
-//           </div>
+                        <motion.div
+                            variants={containerVariants}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true, margin: "-50px" }}
+                            className="space-y-6 relative before:absolute before:inset-0 before:ml-[1.125rem] before:-translate-x-px before:h-full before:w-0.5 before:bg-gradient-to-b before:from-purple-500/50 before:via-gray-200 dark:before:via-gray-800 before:to-transparent"
+                        >
+                            {education.map((edu, idx) => (
+                                <motion.div key={idx} variants={itemVariants} className="relative pl-12 group">
+                                    {/* Glowing Timeline Dot */}
+                                    <div className="absolute left-[0.5625rem] top-2 w-4 h-4 rounded-full bg-white dark:bg-gray-950 border-4 border-purple-500 ring-4 ring-white dark:ring-gray-950 shadow-sm group-hover:scale-125 group-hover:border-purple-400 transition-transform duration-300 z-10" />
 
-//           <motion.div
-//             variants={containerVariants}
-//             initial="hidden"
-//             whileInView="visible"
-//             viewport={{ once: true, margin: "-50px" }}
-//             className="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-gray-200 dark:before:via-gray-800 before:to-transparent"
-//           >
-//             {education.map((edu, idx) => (
-//               <motion.div key={idx} variants={itemVariants} className="relative pl-12 md:pl-10">
-//                 {/* Timeline Dot */}
-//                 <div className="absolute left-3.5 md:left-2 top-1.5 w-3 h-3 rounded-full bg-purple-600 ring-4 ring-white dark:ring-gray-950 shadow-sm" />
-                
-//                 <div className="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 hover:shadow-md transition-shadow">
-//                   <h4 className="text-lg font-bold text-gray-900 dark:text-white leading-snug mb-1">{edu.degree}</h4>
-//                   <span className="text-sm text-gray-500 dark:text-gray-400 block mb-3">{edu.institution}</span>
-//                   <div className="inline-block px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-xs font-semibold text-gray-700 dark:text-gray-300">
-//                     {edu.score}
-//                   </div>
-//                 </div>
-//               </motion.div>
-//             ))}
-//           </motion.div>
-//         </div>
-//       </div>
-//     </section>
-//   );
-// }
+                                    <div className="bg-white/60 dark:bg-gray-900/40 backdrop-blur-xl p-6 md:p-8 rounded-xl shadow-sm border border-gray-200/50 dark:border-gray-800/50 hover:shadow-xl hover:shadow-purple-500/5 hover:-translate-y-1 transition-all duration-300">
+                                        <h4 className="text-xl font-bold text-gray-900 dark:text-white leading-snug mb-3">{edu.degree}</h4>
+                                        <div className="flex flex-wrap items-center gap-4">
+                                            <span className="text-base font-medium text-gray-700 dark:text-gray-300">{edu.institution}</span>
+                                            <div className="flex items-center gap-1.5 text-sm text-gray-600 dark:text-gray-400">
+                                                <MapPin className="w-4 h-4" />
+                                                <span>Dhaka, Bangladesh</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </motion.div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
+}
