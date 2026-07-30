@@ -38,7 +38,7 @@ interface StreamStep {
 
 function scheduleStream(
   steps: StreamStep[],
-  emit: (lines: TerminalLine[]) => void,
+  emit: (lines: TerminalLine[], animate?: boolean, autoUnlock?: boolean) => void,
   onComplete?: () => void
 ): () => void {
   const timers: ReturnType<typeof setTimeout>[] = [];
@@ -50,7 +50,7 @@ function scheduleStream(
     const isLast = i === steps.length - 1;
 
     const timer = setTimeout(() => {
-      emit(step.lines);
+      emit(step.lines, true, isLast);
       if (isLast && onComplete) {
         onComplete();
       }
@@ -148,9 +148,7 @@ export function cmdOmega(ctx: InteractiveCommandContext): InteractiveCommandSess
   ];
 
   ctx.setAnimating(true);
-  cancelStream = scheduleStream(initSteps, ctx.emitLines, () => {
-    ctx.setAnimating(false);
-  });
+  cancelStream = scheduleStream(initSteps, ctx.emitLines);
 
   const renderMainMenu = () => {
     ctx.emitLines([
@@ -201,7 +199,6 @@ export function cmdOmega(ctx: InteractiveCommandContext): InteractiveCommandSess
 
     cancelStream = scheduleStream(steps, ctx.emitLines, () => {
       state = "AUTH_TRAP";
-      ctx.setAnimating(false);
     });
   };
 
@@ -236,7 +233,6 @@ export function cmdOmega(ctx: InteractiveCommandContext): InteractiveCommandSess
 
     cancelStream = scheduleStream(steps, ctx.emitLines, () => {
       state = "EXITED";
-      ctx.setAnimating(false);
       ctx.exit();
     });
   };

@@ -31,6 +31,34 @@ const TERMINAL_KEYFRAMES = `
 `;
 
 // ────────────────────────────────────────────────────────────────────────────────
+// URL auto-detection — makes https links clickable in terminal output
+// ────────────────────────────────────────────────────────────────────────────────
+
+function renderLineContent(text: string): React.ReactNode {
+  if (!text) return "\u00A0";
+
+  const parts = text.split(/(https?:\/\/[^\s]+)/g);
+  if (parts.length <= 1) return text;
+
+  return parts.map((part, i) =>
+    /^https?:\/\//.test(part) ? (
+      <a
+        key={i}
+        href={part}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="underline decoration-1 underline-offset-2 hover:text-cyan-300 transition-colors"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {part}
+      </a>
+    ) : (
+      <React.Fragment key={i}>{part}</React.Fragment>
+    ),
+  );
+}
+
+// ────────────────────────────────────────────────────────────────────────────────
 // Component
 // ────────────────────────────────────────────────────────────────────────────────
 
@@ -102,9 +130,9 @@ export default function TerminalWindow({ onClose }: TerminalWindowProps) {
           onClick={() => inputRef.current?.focus()}
         >
           <pre className="font-[family-name:var(--font-geist-mono)] text-[12px] sm:text-[13px] leading-[1.7] whitespace-pre-wrap break-words">
-            {lines.map((line, i) => (
-              <div key={i} className={lineColorMap[line.type]}>
-                {line.text || "\u00A0"}
+            {lines.map((l, i) => (
+              <div key={i} className={lineColorMap[l.type]}>
+                {renderLineContent(l.text)}
               </div>
             ))}
           </pre>
@@ -117,10 +145,13 @@ export default function TerminalWindow({ onClose }: TerminalWindowProps) {
                 ref={inputRef}
                 type="text"
                 value={input}
-                onChange={(e) => setInput(e.target.value)}
+                onChange={(e) => {
+                  if (!isAnimating) setInput(e.target.value);
+                }}
                 onKeyDown={handleKeyDown}
-                disabled={isAnimating}
-                className="w-full bg-transparent text-gray-200 outline-none caret-transparent placeholder:text-gray-700"
+                className={`w-full bg-transparent outline-none caret-transparent placeholder:text-gray-700 ${
+                  isAnimating ? "text-gray-500" : "text-gray-200"
+                }`}
                 placeholder={isAnimating ? "" : "Type a command..."}
                 autoComplete="off"
                 spellCheck={false}

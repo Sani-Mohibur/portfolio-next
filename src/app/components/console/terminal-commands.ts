@@ -3,6 +3,12 @@
 import { portfolioData } from "../../lib/portfolio-data";
 import { cmdSudo, cmdMatrix, streamSudo, streamMatrix } from "./terminal-easter-eggs";
 import { cmdOmega } from "./terminal-easter-eggs-omega";
+import { cmdContact } from "./terminal-contact";
+import { cmdExperience } from "./terminal-experience";
+import { cmdEducation } from "./terminal-education";
+import { cmdProjects } from "./terminal-projects";
+import { cmdSkills } from "./terminal-skills";
+import { cmdResume } from "./terminal-resume";
 
 // ────────────────────────────────────────────────────────────────────────────────
 // Types
@@ -25,7 +31,7 @@ export type StreamingCommand = (
  * An interactive command maintains state and handles user input sequentially.
  */
 export interface InteractiveCommandContext {
-  emitLines: (lines: TerminalLine[], animate?: boolean) => void;
+  emitLines: (lines: TerminalLine[], animate?: boolean, autoUnlock?: boolean) => void;
   setAnimating: (isAnimating: boolean) => void;
   exit: () => void;
 }
@@ -170,12 +176,36 @@ export function cmdHelp(): TerminalLine[] {
     line(""),
     line("  Available Commands", "header"),
     separator(),
-    line("  help .............. Show this help message", "info"),
-    line("  about ............. Portfolio owner information", "info"),
-    line("  performance ....... Web Vitals & performance metrics", "info"),
-    line("  system ............ Browser & device information", "info"),
-    line("  clear ............. Clear terminal output", "info"),
-    separator(),
+    line(""),
+    line("  ▸ Portfolio", "header"),
+    line("    projects .......... Browse portfolio projects", "info"),
+    line("    skills ............ Explore technical skills", "info"),
+    line("    experience ........ Professional work experience", "info"),
+    line("    education ......... Academic background", "info"),
+    line("    contact ........... Contact information", "info"),
+    line("    resume ............ Download resume", "info"),
+    line(""),
+    line("  ▸ System", "header"),
+    line("    about ............. Portfolio owner information", "info"),
+    line("    whoami ............ Quick identity", "info"),
+    line("    performance ....... Web Vitals & performance metrics", "info"),
+    line("    system ............ Browser & device information", "info"),
+    line(""),
+    line("  ▸ Utilities", "header"),
+    line("    help .............. Show this help message", "info"),
+    line("    clear ............. Clear terminal output", "info"),
+    line(""),
+    line("  Shortcuts: Ctrl+C cancel · Ctrl+L clear · Ctrl+U clear line", "muted"),
+    line(""),
+  ];
+}
+
+export function cmdWhoami(): TerminalLine[] {
+  const { personal } = portfolioData;
+  return [
+    line(""),
+    line(`  ${personal.name} — ${personal.title}`, "accent"),
+    line(`  ${personal.tagline}`, "muted"),
     line(""),
   ];
 }
@@ -360,6 +390,10 @@ export function cmdSystem(): TerminalLine[] {
 export const COMMANDS: Record<string, () => TerminalLine[]> = {
   help: cmdHelp,
   about: cmdAbout,
+  whoami: cmdWhoami,
+  contact: cmdContact,
+  experience: cmdExperience,
+  education: cmdEducation,
   performance: cmdPerformance,
   system: cmdSystem,
   // Easter eggs (remove import + these lines to disable)
@@ -378,5 +412,9 @@ export const STREAMING_COMMANDS: Record<string, StreamingCommand> = {
 // Interactive commands have full control over the terminal input loop.
 // The hook checks this registry before streaming and sync registries.
 export const INTERACTIVE_COMMANDS: Record<string, InteractiveCommand> = {
+  projects: cmdProjects,
+  skills: cmdSkills,
+  resume: cmdResume,
+  // Easter eggs (remove import + these lines to disable)
   omega: cmdOmega,
 };

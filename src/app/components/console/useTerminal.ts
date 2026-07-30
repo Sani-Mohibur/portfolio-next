@@ -49,7 +49,7 @@ export function useTerminal(): UseTerminalReturn {
 
   // Animate lines one-by-one (used for sync commands + boot sequence)
   const animateLines = useCallback(
-    (newLines: TerminalLine[], existingLines?: TerminalLine[]) => {
+    (newLines: TerminalLine[], existingLines?: TerminalLine[], autoUnlock = true) => {
       setIsAnimating(true);
       const base = existingLines ?? [];
 
@@ -66,8 +66,8 @@ export function useTerminal(): UseTerminalReturn {
           });
           scrollToBottom();
 
-          // Mark animation complete on last line
-          if (i === newLines.length - 1) {
+          // Mark animation complete on last line if autoUnlock is true
+          if (i === newLines.length - 1 && autoUnlock) {
             setIsAnimating(false);
           }
         }, i * LINE_DELAY);
@@ -75,7 +75,7 @@ export function useTerminal(): UseTerminalReturn {
       });
 
       // Edge case: empty array
-      if (newLines.length === 0) {
+      if (newLines.length === 0 && autoUnlock) {
         setIsAnimating(false);
       }
     },
@@ -147,6 +147,11 @@ export function useTerminal(): UseTerminalReturn {
         inputRef.current?.focus();
       }
     }, [isAnimating]);
+
+    // Auto-scroll to bottom whenever lines change or animation ends
+    useEffect(() => {
+      requestAnimationFrame(() => scrollToBottom());
+    }, [lines, isAnimating, scrollToBottom]);
   
     // Execute an interactive command
     const executeInteractiveCommand = useCallback(
@@ -158,18 +163,11 @@ export function useTerminal(): UseTerminalReturn {
         setLines(baseLines);
   
         const session = interactiveCmd({
-          emitLines: (newLines: TerminalLine[], animate = false) => {
+          emitLines: (newLines: TerminalLine[], animate = true, autoUnlock = true) => {
             if (animate) {
-              // We use a simplified animation here just appending lines over time
-              // but we need to ensure we append to the current state properly.
-              // To avoid state capturing issues, we can just call animateLines.
-              // However animateLines replaces the current animation.
-              // For simplicity, we just append them.
-              setLines((prev) => [...prev, ...newLines]);
-              requestAnimationFrame(() => scrollToBottom());
+              animateLines(newLines, undefined, autoUnlock);
             } else {
               setLines((prev) => [...prev, ...newLines]);
-              requestAnimationFrame(() => scrollToBottom());
             }
           },
           setAnimating: (animating: boolean) => {
@@ -248,11 +246,59 @@ export function useTerminal(): UseTerminalReturn {
       ];
       animateLines(errorLines, currentLines);
     }
-  }, [input, isAnimating, lines, animateLines, executeStreamingCommand]);
+  }, [input, isAnimating, lines, animateLines, executeStreamingCommand, executeInteractiveCommand]);
 
   // Handle key events (history navigation, enter, etc.)
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
+      // ── Terminal shortcuts (work even during animation) ──
+      if (e.ctrlKey && e.key === "c") {
+        e.preventDefault();
+        animationRef.current.forEach(clearTimeout);
+        animationRef.current = [];
+        streamCleanupRef.current?.();
+        streamCleanupRef.current = null;
+        activeInteractiveCmdRef.current?.cleanup?.();
+        activeInteractiveCmdRef.current = null;
+        setIsAnimating(false);
+        setLines((prev) => [...prev, { text: "  ^C", type: "muted" as const }]);
+        setInput("");
+        return;
+      }
+
+      if (e.ctrlKey && e.key === "l") {
+        e.preventDefault();
+        animationRef.current.forEach(clearTimeout);
+        animationRef.current = [];
+        streamCleanupRef.current?.();
+        streamCleanupRef.current = null;
+        activeInteractiveCmdRef.current?.cleanup?.();
+        activeInteractiveCmdRef.current = null;
+        setIsAnimating(false);
+        setLines([]);
+        setInput("");
+        return;
+      }
+
+      if (e.ctrlKey && e.key === "u") {
+        e.preventDefault();
+        setInput("");
+        return;
+      }
+
+      if (e.ctrlKey && e.key === "a") {
+        e.preventDefault();
+        inputRef.current?.setSelectionRange(0, 0);
+        return;
+      }
+
+      if (e.ctrlKey && e.key === "e") {
+        e.preventDefault();
+        const len = inputRef.current?.value.length ?? 0;
+        inputRef.current?.setSelectionRange(len, len);
+        return;
+      }
+
       if (e.key === "Enter") {
         handleSubmit();
         return;
