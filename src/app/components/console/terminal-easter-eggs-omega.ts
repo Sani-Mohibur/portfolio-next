@@ -114,13 +114,18 @@ const CATEGORIES = [
 
 type OmegaState =
   | "CONSENT"
+  | "INIT"
   | "MAIN_MENU"
+  | "MODULE_SELECTION"
   | "SUB_MENU"
   | "DECRYPTING"
   | "AUTH_TRAP"
   | "EXITED";
 
-export function cmdOmega(ctx: InteractiveCommandContext): InteractiveCommandSession {
+export function cmdOmega(
+  cmdCtx: any,
+  ctx: InteractiveCommandContext,
+): InteractiveCommandSession {
   let state: OmegaState = "CONSENT";
   let selectedCategory: typeof CATEGORIES[number] | null = null;
   let cancelStream: (() => void) | null = null;

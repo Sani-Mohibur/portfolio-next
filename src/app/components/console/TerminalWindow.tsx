@@ -66,7 +66,13 @@ interface TerminalWindowProps {
   onClose: () => void;
 }
 
-export default function TerminalWindow({ onClose }: TerminalWindowProps) {
+interface TerminalViewProps {
+  shell: "portfolio" | "linux";
+  isActive: boolean;
+  onClose: () => void;
+}
+
+function TerminalView({ shell, isActive, onClose }: TerminalViewProps) {
   const {
     lines,
     input,
@@ -75,7 +81,90 @@ export default function TerminalWindow({ onClose }: TerminalWindowProps) {
     outputRef,
     inputRef,
     isAnimating,
-  } = useTerminal();
+    linuxDir,
+  } = useTerminal(shell, onClose);
+
+  React.useEffect(() => {
+    if (isActive) {
+      // Wait for the 300ms fade transition to complete before focusing
+      const timer = setTimeout(() => {
+        inputRef.current?.focus();
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [isActive, inputRef]);
+
+  return (
+    <div
+      className={`absolute inset-0 flex flex-col transition-opacity duration-300 ${isActive ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
+        }`}
+    >
+      {/* ── Output Area ── */}
+      <div
+        ref={outputRef}
+        className="flex-1 overflow-y-auto px-4 py-3 chat-scrollbar"
+        onClick={() => {
+          if (isActive) inputRef.current?.focus();
+        }}
+      >
+        <pre className="font-[family-name:var(--font-geist-mono)] text-[12px] sm:text-[13px] leading-[1.7] whitespace-pre-wrap break-words">
+          {lines.map((l, i) => (
+            <div key={i} className={lineColorMap[l.type]}>
+              {renderLineContent(l.text)}
+            </div>
+          ))}
+        </pre>
+
+        {/* ── Input Line ── */}
+        <div className="flex items-center gap-2 mt-1 font-[family-name:var(--font-geist-mono)] text-[12px] sm:text-[13px]">
+          {shell === "portfolio" ? (
+            <span className="text-cyan-400 font-semibold select-none">❯</span>
+          ) : (
+            <span className="font-semibold select-none whitespace-nowrap">
+              <span className="text-green-400">mohibur@portfolio</span>
+              <span className="text-white">:</span>
+              <span className="text-blue-400">{linuxDir}</span>
+              <span className="text-white">$</span>
+            </span>
+          )}
+          <div className="flex-1 relative">
+            <input
+              ref={inputRef}
+              type="text"
+              value={input}
+              onChange={(e) => {
+                if (!isAnimating) setInput(e.target.value);
+              }}
+              onKeyDown={handleKeyDown}
+              className={`w-full bg-transparent outline-none caret-transparent placeholder:text-gray-700 ${isAnimating ? "text-gray-500" : "text-gray-200"
+                }`}
+              placeholder={isAnimating ? "" : "Type a command..."}
+              autoComplete="off"
+              spellCheck={false}
+              aria-label="Terminal input"
+              tabIndex={isActive ? 0 : -1}
+            />
+            {/* Custom blinking cursor */}
+            <span
+              className="absolute top-0 h-full flex items-center pointer-events-none"
+              style={{ left: `${input.length * 0.59}em` }}
+            >
+              <span
+                className="inline-block w-[7px] h-[15px] bg-cyan-400/80"
+                style={{
+                  animation: "terminal-cursor-blink 1.1s step-end infinite",
+                }}
+              />
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function TerminalWindow({ onClose }: TerminalWindowProps) {
+  const [activeShell, setActiveShell] = React.useState<"portfolio" | "linux">("portfolio");
 
   return (
     <>
@@ -106,10 +195,30 @@ export default function TerminalWindow({ onClose }: TerminalWindowProps) {
             <div className="w-3 h-3 rounded-full bg-[#28c840] opacity-80" />
           </div>
 
-          {/* Title */}
-          <span className="text-[11px] font-medium text-gray-500 tracking-wide font-[family-name:var(--font-geist-mono)]">
-            Developer Console
-          </span>
+          {/* Premium Segmented Switch */}
+          <div className="flex items-center bg-black/40 rounded-full p-1 border border-white/5 relative">
+            {/* Sliding background */}
+            <div
+              className={`absolute top-1 bottom-1 w-[80px] bg-white/10 border border-white/10 rounded-full transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-sm`}
+              style={{
+                transform: activeShell === "portfolio" ? "translateX(0)" : "translateX(100%)"
+              }}
+            />
+            <button
+              onClick={() => setActiveShell("portfolio")}
+              className={`cursor-pointer relative w-[80px] text-[11px] font-medium tracking-wider z-10 transition-colors duration-300 ${activeShell === "portfolio" ? "text-cyan-400" : "text-gray-500 hover:text-gray-400"
+                }`}
+            >
+              PORTFOLIO
+            </button>
+            <button
+              onClick={() => setActiveShell("linux")}
+              className={`cursor-pointer relative w-[80px] text-[11px] font-medium tracking-wider z-10 transition-colors duration-300 ${activeShell === "linux" ? "text-green-400" : "text-gray-500 hover:text-gray-400"
+                }`}
+            >
+              BASH
+            </button>
+          </div>
 
           {/* Close button */}
           <button
@@ -123,54 +232,10 @@ export default function TerminalWindow({ onClose }: TerminalWindowProps) {
           </button>
         </div>
 
-        {/* ── Output Area ── */}
-        <div
-          ref={outputRef}
-          className="flex-1 overflow-y-auto px-4 py-3 chat-scrollbar"
-          onClick={() => inputRef.current?.focus()}
-        >
-          <pre className="font-[family-name:var(--font-geist-mono)] text-[12px] sm:text-[13px] leading-[1.7] whitespace-pre-wrap break-words">
-            {lines.map((l, i) => (
-              <div key={i} className={lineColorMap[l.type]}>
-                {renderLineContent(l.text)}
-              </div>
-            ))}
-          </pre>
-
-          {/* ── Input Line ── */}
-          <div className="flex items-center gap-2 mt-1 font-[family-name:var(--font-geist-mono)] text-[12px] sm:text-[13px]">
-            <span className="text-cyan-400 font-semibold select-none">❯</span>
-            <div className="flex-1 relative">
-              <input
-                ref={inputRef}
-                type="text"
-                value={input}
-                onChange={(e) => {
-                  if (!isAnimating) setInput(e.target.value);
-                }}
-                onKeyDown={handleKeyDown}
-                className={`w-full bg-transparent outline-none caret-transparent placeholder:text-gray-700 ${
-                  isAnimating ? "text-gray-500" : "text-gray-200"
-                }`}
-                placeholder={isAnimating ? "" : "Type a command..."}
-                autoComplete="off"
-                spellCheck={false}
-                aria-label="Terminal input"
-              />
-              {/* Custom blinking cursor */}
-              <span
-                className="absolute top-0 h-full flex items-center pointer-events-none"
-                style={{ left: `${input.length * 0.59}em` }}
-              >
-                <span
-                  className="inline-block w-[7px] h-[15px] bg-cyan-400/80"
-                  style={{
-                    animation: "terminal-cursor-blink 1.1s step-end infinite",
-                  }}
-                />
-              </span>
-            </div>
-          </div>
+        {/* ── Terminal Views Container ── */}
+        <div className="flex-1 relative overflow-hidden">
+          <TerminalView shell="portfolio" isActive={activeShell === "portfolio"} onClose={onClose} />
+          <TerminalView shell="linux" isActive={activeShell === "linux"} onClose={onClose} />
         </div>
       </div>
     </>

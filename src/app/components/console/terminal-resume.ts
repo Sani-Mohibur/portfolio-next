@@ -15,6 +15,7 @@ import { portfolioData } from "../../lib/portfolio-data";
 type ResumeState = "PROMPT" | "EXITED";
 
 export function cmdResume(
+  cmdCtx: any,
   ctx: InteractiveCommandContext,
 ): InteractiveCommandSession {
   let state: ResumeState = "PROMPT";

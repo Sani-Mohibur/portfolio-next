@@ -16,6 +16,7 @@ import { portfolioData } from "../../lib/portfolio-data";
 type ProjectsState = "LIST" | "DETAIL" | "EXITED";
 
 export function cmdProjects(
+  cmdCtx: any,
   ctx: InteractiveCommandContext,
 ): InteractiveCommandSession {
   let state: ProjectsState = "LIST";

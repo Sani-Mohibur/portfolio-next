@@ -16,6 +16,7 @@ import { portfolioData } from "../../lib/portfolio-data";
 type SkillsState = "CATEGORIES" | "DETAIL" | "EXITED";
 
 export function cmdSkills(
+  cmdCtx: any,
   ctx: InteractiveCommandContext,
 ): InteractiveCommandSession {
   let state: SkillsState = "CATEGORIES";

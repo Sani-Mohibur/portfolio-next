@@ -9,6 +9,23 @@ import { cmdEducation } from "./terminal-education";
 import { cmdProjects } from "./terminal-projects";
 import { cmdSkills } from "./terminal-skills";
 import { cmdResume } from "./terminal-resume";
+import {
+  cmdPwd,
+  cmdCd,
+  cmdLs,
+  cmdCat,
+  cmdWhoami as cmdLinuxWhoami,
+  cmdDate,
+  cmdUname,
+  cmdEcho,
+  cmdHistory,
+  cmdExit,
+  cmdUptime,
+  cmdFree,
+  cmdDf,
+  cmdTop,
+  cmdLinuxHelp,
+} from "./terminal-linux";
 
 // ────────────────────────────────────────────────────────────────────────────────
 // Types
@@ -19,11 +36,21 @@ export interface TerminalLine {
   type: "info" | "success" | "warning" | "error" | "accent" | "muted" | "header" | "plain";
 }
 
+export interface CommandContext {
+  args: string[];
+  activeShell: "portfolio" | "linux";
+  onClose: () => void;
+  linuxDir: string;
+  setLinuxDir: (dir: string) => void;
+  history: string[];
+}
+
 /**
  * A streaming command pushes lines progressively via the `emit` callback.
  * It returns a cleanup/cancel function to abort in-flight timers.
  */
 export type StreamingCommand = (
+  ctx: CommandContext,
   emit: (lines: TerminalLine[]) => void,
 ) => () => void;
 
@@ -41,7 +68,7 @@ export interface InteractiveCommandSession {
   cleanup?: () => void;
 }
 
-export type InteractiveCommand = (ctx: InteractiveCommandContext) => InteractiveCommandSession;
+export type InteractiveCommand = (ctx: CommandContext, sessionCtx: InteractiveCommandContext) => InteractiveCommandSession;
 
 // ────────────────────────────────────────────────────────────────────────────────
 // Helpers
@@ -192,6 +219,7 @@ export function cmdHelp(): TerminalLine[] {
     line("    system ............ Browser & device information", "info"),
     line(""),
     line("  ▸ Utilities", "header"),
+    line("    shell ............. Switch to Linux Shell", "info"),
     line("    help .............. Show this help message", "info"),
     line("    clear ............. Clear terminal output", "info"),
     line(""),
@@ -387,7 +415,7 @@ export function cmdSystem(): TerminalLine[] {
 // Command Registry
 // ────────────────────────────────────────────────────────────────────────────────
 
-export const COMMANDS: Record<string, () => TerminalLine[]> = {
+export const PORTFOLIO_COMMANDS: Record<string, (ctx: CommandContext) => TerminalLine[]> = {
   help: cmdHelp,
   about: cmdAbout,
   whoami: cmdWhoami,
@@ -396,25 +424,43 @@ export const COMMANDS: Record<string, () => TerminalLine[]> = {
   education: cmdEducation,
   performance: cmdPerformance,
   system: cmdSystem,
-  // Easter eggs (remove import + these lines to disable)
+};
+
+export const PORTFOLIO_STREAMING_COMMANDS: Record<string, StreamingCommand> = {};
+
+export const PORTFOLIO_INTERACTIVE_COMMANDS: Record<string, InteractiveCommand> = {
+  projects: cmdProjects,
+  skills: cmdSkills,
+  resume: cmdResume,
+};
+
+// These will be populated from terminal-linux.ts in a subsequent step, 
+// but for now we initialize them with the easter eggs.
+export const LINUX_COMMANDS: Record<string, (ctx: CommandContext) => TerminalLine[]> = {
+  pwd: cmdPwd,
+  cd: cmdCd,
+  ls: cmdLs,
+  cat: cmdCat,
+  whoami: cmdLinuxWhoami,
+  date: cmdDate,
+  uname: cmdUname,
+  echo: cmdEcho,
+  history: cmdHistory,
+  uptime: cmdUptime,
+  free: cmdFree,
+  df: cmdDf,
+  top: cmdTop,
+  exit: cmdExit,
+  help: cmdLinuxHelp,
   sudo: cmdSudo,
   matrix: cmdMatrix,
 };
 
-// Streaming commands override sync commands when present.
-// The hook checks this registry first.
-export const STREAMING_COMMANDS: Record<string, StreamingCommand> = {
-  // Easter eggs (remove import + these lines to disable)
+export const LINUX_STREAMING_COMMANDS: Record<string, StreamingCommand> = {
   sudo: streamSudo,
   matrix: streamMatrix,
 };
 
-// Interactive commands have full control over the terminal input loop.
-// The hook checks this registry before streaming and sync registries.
-export const INTERACTIVE_COMMANDS: Record<string, InteractiveCommand> = {
-  projects: cmdProjects,
-  skills: cmdSkills,
-  resume: cmdResume,
-  // Easter eggs (remove import + these lines to disable)
+export const LINUX_INTERACTIVE_COMMANDS: Record<string, InteractiveCommand> = {
   omega: cmdOmega,
 };

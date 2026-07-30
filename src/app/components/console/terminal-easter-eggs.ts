@@ -71,7 +71,7 @@ function scheduleStream(
 
 let sudoAttempts = 0;
 
-export function cmdSudo(): TerminalLine[] {
+export function cmdSudo(ctx: any): TerminalLine[] {
   sudoAttempts++;
   const lines: TerminalLine[] = [];
   const pid = randomPid();
@@ -143,7 +143,7 @@ export function cmdSudo(): TerminalLine[] {
 // matrix — Sync fallback (kept for backward compatibility)
 // ────────────────────────────────────────────────────────────────────────────────
 
-export function cmdMatrix(): TerminalLine[] {
+export function cmdMatrix(ctx: any): TerminalLine[] {
   const lines: TerminalLine[] = [];
 
   lines.push(line(""));
@@ -225,6 +225,7 @@ export function cmdMatrix(): TerminalLine[] {
 // ────────────────────────────────────────────────────────────────────────────────
 
 export function streamSudo(
+  ctx: any,
   emit: (lines: TerminalLine[]) => void,
 ): () => void {
   sudoAttempts++;
@@ -453,6 +454,7 @@ export function streamSudo(
 // ────────────────────────────────────────────────────────────────────────────────
 
 export function streamMatrix(
+  ctx: any,
   emit: (lines: TerminalLine[]) => void,
 ): () => void {
   const steps: StreamStep[] = [];

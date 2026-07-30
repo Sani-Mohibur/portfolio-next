@@ -4,9 +4,13 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import {
   TerminalLine,
   getBootSequence,
-  COMMANDS,
-  STREAMING_COMMANDS,
-  INTERACTIVE_COMMANDS,
+  CommandContext,
+  PORTFOLIO_COMMANDS,
+  PORTFOLIO_STREAMING_COMMANDS,
+  PORTFOLIO_INTERACTIVE_COMMANDS,
+  LINUX_COMMANDS,
+  LINUX_STREAMING_COMMANDS,
+  LINUX_INTERACTIVE_COMMANDS,
   InteractiveCommandSession,
 } from "./terminal-commands";
 
@@ -23,16 +27,19 @@ interface UseTerminalReturn {
   outputRef: React.RefObject<HTMLDivElement | null>;
   inputRef: React.RefObject<HTMLInputElement | null>;
   isAnimating: boolean;
+  activeShell: "portfolio" | "linux";
+  linuxDir: string;
 }
 
 const LINE_DELAY = 35; // ms between each animated line
 
-export function useTerminal(): UseTerminalReturn {
+export function useTerminal(shell: "portfolio" | "linux", onClose: () => void): UseTerminalReturn {
   const [lines, setLines] = useState<TerminalLine[]>([]);
   const [input, setInput] = useState("");
   const [history, setHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [linuxDir, setLinuxDir] = useState("~");
 
   const outputRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -84,24 +91,27 @@ export function useTerminal(): UseTerminalReturn {
 
   // Execute a streaming command
   const executeStreamingCommand = useCallback(
-    (commandKey: string, baseLines: TerminalLine[]) => {
-      const streamCmd = STREAMING_COMMANDS[commandKey];
+    (commandKey: string, args: string[], baseLines: TerminalLine[]) => {
+      const streamCmd = (shell === "portfolio" ? PORTFOLIO_STREAMING_COMMANDS : LINUX_STREAMING_COMMANDS)[commandKey];
       if (!streamCmd) return false;
 
-      setIsAnimating(true);
-
-      // Set the base lines (echo line already included)
+      // Set base lines (echo line already included)
       setLines(baseLines);
 
-      // Track whether the streaming command has emitted at least one batch
       let lastEmitTime = Date.now();
+      
+      const cmdCtx: CommandContext = {
+        args,
+        activeShell: shell,
+        onClose,
+        linuxDir,
+        setLinuxDir,
+        history,
+      };
 
-      const cleanup = streamCmd((newLines: TerminalLine[]) => {
+      const cleanup = streamCmd(cmdCtx, (newLines: TerminalLine[]) => {
         lastEmitTime = Date.now();
-
         setLines((prev) => [...prev, ...newLines]);
-
-        // Schedule scroll for next frame to ensure DOM has updated
         requestAnimationFrame(() => scrollToBottom());
       });
 
@@ -127,19 +137,29 @@ export function useTerminal(): UseTerminalReturn {
 
       return true;
     },
-    [scrollToBottom],
+    [shell, onClose, linuxDir, history, scrollToBottom],
   );
 
-  // Boot sequence on mount
+  // Initialize boot sequence for portfolio, mock MOTD for linux
   useEffect(() => {
-    const bootLines = getBootSequence();
-    animateLines(bootLines, []);
+    if (shell === "portfolio") {
+      const bootLines = getBootSequence();
+      animateLines(bootLines);
+    } else {
+      const linuxBoot: TerminalLine[] = [
+        { text: "Welcome to PortfolioOS v1.0.4 (x86_64)", type: "muted" },
+        { text: "Type 'help' for a list of available commands.", type: "muted" },
+        { text: "", type: "plain" }
+      ];
+      setLines(linuxBoot);
+    }
+    
     return () => {
       animationRef.current.forEach(clearTimeout);
       streamCleanupRef.current?.();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [shell]);
 
     // Focus input after animation completes
     useEffect(() => {
@@ -153,16 +173,24 @@ export function useTerminal(): UseTerminalReturn {
       requestAnimationFrame(() => scrollToBottom());
     }, [lines, isAnimating, scrollToBottom]);
   
-    // Execute an interactive command
     const executeInteractiveCommand = useCallback(
-      (commandKey: string, baseLines: TerminalLine[]) => {
-        const interactiveCmd = INTERACTIVE_COMMANDS[commandKey];
+      (commandKey: string, args: string[], baseLines: TerminalLine[]) => {
+        const interactiveCmd = (shell === "portfolio" ? PORTFOLIO_INTERACTIVE_COMMANDS : LINUX_INTERACTIVE_COMMANDS)[commandKey];
         if (!interactiveCmd) return false;
   
         // Set base lines (echo line already included)
         setLines(baseLines);
+
+        const cmdCtx: CommandContext = {
+          args,
+          activeShell: shell,
+          onClose,
+          linuxDir,
+          setLinuxDir,
+          history,
+        };
   
-        const session = interactiveCmd({
+        const session = interactiveCmd(cmdCtx, {
           emitLines: (newLines: TerminalLine[], animate = true, autoUnlock = true) => {
             if (animate) {
               animateLines(newLines, undefined, autoUnlock);
@@ -182,7 +210,7 @@ export function useTerminal(): UseTerminalReturn {
         activeInteractiveCmdRef.current = session;
         return true;
       },
-      [scrollToBottom]
+      [shell, onClose, linuxDir, history, scrollToBottom, animateLines]
     );
   
     // Handle command submission
@@ -201,7 +229,10 @@ export function useTerminal(): UseTerminalReturn {
     }
   
     // Echo the command
-    const echoLine: TerminalLine = { text: `  ❯ ${trimmed}`, type: "accent" };
+    const promptStr = shell === "portfolio" 
+      ? "  ❯ " 
+      : `  mohibur@portfolio:${linuxDir}$ `;
+    const echoLine: TerminalLine = { text: `${promptStr}${trimmed}`, type: "accent" };
     const currentLines = [...lines, echoLine];
     setLines(currentLines);
     setInput("");
@@ -212,41 +243,61 @@ export function useTerminal(): UseTerminalReturn {
       return;
     }
   
+    // Parse input
+    const parts = trimmed.split(/\s+/);
+    const commandKey = parts[0].toLowerCase();
+    const args = parts.slice(1);
+
     // Special: clear
-    if (trimmed.toLowerCase() === "clear") {
+    if (commandKey === "clear") {
       setLines([]);
       return;
     }
-  
-    const commandKey = trimmed.toLowerCase();
+
+    const interactiveReg = shell === "portfolio" ? PORTFOLIO_INTERACTIVE_COMMANDS : LINUX_INTERACTIVE_COMMANDS;
+    const streamingReg = shell === "portfolio" ? PORTFOLIO_STREAMING_COMMANDS : LINUX_STREAMING_COMMANDS;
+    const syncReg = shell === "portfolio" ? PORTFOLIO_COMMANDS : LINUX_COMMANDS;
   
     // Check interactive commands first
-    if (INTERACTIVE_COMMANDS[commandKey]) {
-      executeInteractiveCommand(commandKey, currentLines);
+    if (interactiveReg[commandKey]) {
+      executeInteractiveCommand(commandKey, args, currentLines);
       return;
     }
   
     // Check streaming commands
-    if (STREAMING_COMMANDS[commandKey]) {
-      executeStreamingCommand(commandKey, currentLines);
+    if (streamingReg[commandKey]) {
+      executeStreamingCommand(commandKey, args, currentLines);
       return;
     }
+    
+    const cmdCtx: CommandContext = {
+      args,
+      activeShell: shell,
+      onClose,
+      linuxDir,
+      setLinuxDir,
+      history,
+    };
 
     // Fall back to sync commands
-    const cmd = COMMANDS[commandKey];
+    const cmd = syncReg[commandKey];
     if (cmd) {
-      const output = cmd();
+      const output = cmd(cmdCtx);
       animateLines(output, currentLines);
     } else {
-      const errorLines: TerminalLine[] = [
-        { text: "", type: "plain" },
-        { text: `  Command not found: ${trimmed}`, type: "error" },
-        { text: '  Type "help" for available commands.', type: "muted" },
-        { text: "", type: "plain" },
-      ];
+      const errorLines: TerminalLine[] = shell === "portfolio" 
+        ? [
+            { text: "", type: "plain" },
+            { text: `  Command not found: ${commandKey}`, type: "error" },
+            { text: '  Type "help" for available commands.', type: "muted" },
+            { text: "", type: "plain" },
+          ]
+        : [
+            { text: `bash: ${commandKey}: command not found`, type: "plain" }
+          ];
       animateLines(errorLines, currentLines);
     }
-  }, [input, isAnimating, lines, animateLines, executeStreamingCommand, executeInteractiveCommand]);
+  }, [input, isAnimating, lines, animateLines, executeStreamingCommand, executeInteractiveCommand, shell, onClose, linuxDir, history]);
 
   // Handle key events (history navigation, enter, etc.)
   const handleKeyDown = useCallback(
@@ -339,5 +390,7 @@ export function useTerminal(): UseTerminalReturn {
     outputRef,
     inputRef,
     isAnimating,
+    activeShell: shell,
+    linuxDir,
   };
 }
