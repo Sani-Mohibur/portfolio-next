@@ -1,6 +1,8 @@
 "use client";
 
 import { portfolioData } from "../../lib/portfolio-data";
+import { cmdSudo, cmdMatrix, streamSudo, streamMatrix } from "./terminal-easter-eggs";
+import { cmdOmega } from "./terminal-easter-eggs-omega";
 
 // ────────────────────────────────────────────────────────────────────────────────
 // Types
@@ -11,15 +13,39 @@ export interface TerminalLine {
   type: "info" | "success" | "warning" | "error" | "accent" | "muted" | "header" | "plain";
 }
 
+/**
+ * A streaming command pushes lines progressively via the `emit` callback.
+ * It returns a cleanup/cancel function to abort in-flight timers.
+ */
+export type StreamingCommand = (
+  emit: (lines: TerminalLine[]) => void,
+) => () => void;
+
+/**
+ * An interactive command maintains state and handles user input sequentially.
+ */
+export interface InteractiveCommandContext {
+  emitLines: (lines: TerminalLine[], animate?: boolean) => void;
+  setAnimating: (isAnimating: boolean) => void;
+  exit: () => void;
+}
+
+export interface InteractiveCommandSession {
+  handleInput: (input: string) => void;
+  cleanup?: () => void;
+}
+
+export type InteractiveCommand = (ctx: InteractiveCommandContext) => InteractiveCommandSession;
+
 // ────────────────────────────────────────────────────────────────────────────────
 // Helpers
 // ────────────────────────────────────────────────────────────────────────────────
 
-function line(text: string, type: TerminalLine["type"] = "plain"): TerminalLine {
+export function line(text: string, type: TerminalLine["type"] = "plain"): TerminalLine {
   return { text, type };
 }
 
-function separator(): TerminalLine {
+export function separator(): TerminalLine {
   return line("─".repeat(52), "muted");
 }
 
@@ -336,4 +362,21 @@ export const COMMANDS: Record<string, () => TerminalLine[]> = {
   about: cmdAbout,
   performance: cmdPerformance,
   system: cmdSystem,
+  // Easter eggs (remove import + these lines to disable)
+  sudo: cmdSudo,
+  matrix: cmdMatrix,
+};
+
+// Streaming commands override sync commands when present.
+// The hook checks this registry first.
+export const STREAMING_COMMANDS: Record<string, StreamingCommand> = {
+  // Easter eggs (remove import + these lines to disable)
+  sudo: streamSudo,
+  matrix: streamMatrix,
+};
+
+// Interactive commands have full control over the terminal input loop.
+// The hook checks this registry before streaming and sync registries.
+export const INTERACTIVE_COMMANDS: Record<string, InteractiveCommand> = {
+  omega: cmdOmega,
 };
