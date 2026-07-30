@@ -310,8 +310,6 @@ export function streamSudo(
           line("  Access Denied — insufficient privileges.", "error"),
           line("  This incident will be reported.", "warning"),
           line(""),
-          line('  Hint: Try "sudo" again to escalate.', "muted"),
-          line(""),
         ],
       },
     ];
