@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { motion } from "framer-motion";
 
 interface SuggestedQuestionsProps {
@@ -9,12 +8,12 @@ interface SuggestedQuestionsProps {
 }
 
 const SUGGESTIONS = [
-  "Tell me about Mohibur",
-  "What are your skills?",
-  "Show me your projects",
+  "What is your tech stack?",
+  "Tell me about your experience.",
+  "What are your top projects?",
+  "Tell me about SkillBridge.",
+  "What backend technologies do you use?",
   "How can I contact you?",
-  "Tell me about HireMe API",
-  "What backend technologies do you know?",
 ];
 
 export default function SuggestedQuestions({

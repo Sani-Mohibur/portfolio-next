@@ -7,7 +7,7 @@ const data = portfolioData;
 
 // Group the flat skills array dynamically by category
 const groupedSkills = data.skills.reduce((acc: Record<string, string[]>, skill) => {
-  const categoryKey = (skill.category || "Other").toLowerCase();
+  const categoryKey = skill.category || "Other";
   if (!acc[categoryKey]) {
     acc[categoryKey] = [];
   }
@@ -63,24 +63,23 @@ ${data.education.map(e => `### ${e.degree}
 `).join('\n')}
 
 ## Skills
-### Frontend
- ${(groupedSkills["frontend"] || []).join(", ") || "None listed"}
-### Backend
- ${(groupedSkills["backend"] || []).join(", ") || "None listed"}
-### Database / ORMs
- ${(groupedSkills["database"] || []).join(", ") || "None listed"}
-### Third-Party Integrations
- ${(groupedSkills["third-party integrations"] || []).join(", ") || "None listed"}
+${Object.entries(groupedSkills).map(([category, skills]) => `### ${category}
+ ${(skills as string[]).join(", ")}`).join('\n')}
 
 ## Projects
 ${data.projects
     .map(
       (p) => `### ${p.title}
 - **Description**: ${p.description}
+${p.brief ? `- **Brief**: ${p.brief}` : ""}
+${p.whyBuilt ? `- **Why Built**: ${p.whyBuilt}` : ""}
+${p.targetUsers ? `- **Target Users**: ${p.targetUsers}` : ""}
+${p.challenges ? `- **Challenges**: ${p.challenges}` : ""}
+${p.futurePlans ? `- **Future Plans**: ${p.futurePlans}` : ""}
 - **Features**:
 ${p.features.map(f => `  - ${f}`).join('\n')}
 - **Technologies**: ${p.technologies.join(", ")}
-${"githubFrontend" in p ? `- **Frontend Code**: ${p.githubFrontend}\n` : ""}${"githubBackend" in p ? `- **Backend Code**: ${p.githubBackend}\n` : ""}${p.live ? `- **Live Demo**: ${p.live}` : ""}`
+${"githubFrontend" in p && p.githubFrontend ? `- **Frontend Code**: ${p.githubFrontend}\n` : ""}${"githubBackend" in p && p.githubBackend ? `- **Backend Code**: ${p.githubBackend}\n` : ""}${p.live ? `- **Live Demo**: ${p.live}` : ""}`
     )
     .join("\n\n")}
 
