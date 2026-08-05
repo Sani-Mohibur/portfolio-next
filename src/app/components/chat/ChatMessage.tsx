@@ -83,16 +83,66 @@ export default function ChatMessage({
           <div className="chat-markdown text-sm leading-relaxed text-gray-800 dark:text-gray-200">
             <ReactMarkdown
               components={{
+                h2: ({ children, ...props }) => (
+                  <h2
+                    className="text-sm font-bold text-indigo-600 dark:text-indigo-400 mt-3 mb-1.5 first:mt-0"
+                    {...props}
+                  >
+                    {children}
+                  </h2>
+                ),
+                h3: ({ children, ...props }) => (
+                  <h3
+                    className="text-sm font-semibold text-indigo-600 dark:text-indigo-400 mt-2.5 mb-1 first:mt-0"
+                    {...props}
+                  >
+                    {children}
+                  </h3>
+                ),
+                p: ({ children, ...props }) => (
+                  <p className="mb-2 last:mb-0" {...props}>
+                    {children}
+                  </p>
+                ),
                 a: ({ children, href, ...props }) => (
                   <a
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-indigo-600 dark:text-indigo-400 hover:underline"
+                    className="text-indigo-600 dark:text-indigo-400 underline decoration-indigo-400/40 dark:decoration-indigo-500/40 underline-offset-2 hover:decoration-indigo-600 dark:hover:decoration-indigo-400 transition-colors duration-200"
                     {...props}
                   >
                     {children}
                   </a>
+                ),
+                ul: ({ children, ...props }) => (
+                  <ul
+                    className="list-disc ml-4 mb-2 space-y-0.5 marker:text-indigo-400 dark:marker:text-indigo-500"
+                    {...props}
+                  >
+                    {children}
+                  </ul>
+                ),
+                ol: ({ children, ...props }) => (
+                  <ol
+                    className="list-decimal ml-4 mb-2 space-y-0.5 marker:text-indigo-400 dark:marker:text-indigo-500"
+                    {...props}
+                  >
+                    {children}
+                  </ol>
+                ),
+                li: ({ children, ...props }) => (
+                  <li className="pl-0.5" {...props}>
+                    {children}
+                  </li>
+                ),
+                pre: ({ children, ...props }) => (
+                  <pre
+                    className="bg-gray-200/60 dark:bg-gray-700/50 rounded-lg p-3 overflow-x-auto mb-2 text-xs"
+                    {...props}
+                  >
+                    {children}
+                  </pre>
                 ),
                 code: ({ children, ...props }) => (
                   <code
