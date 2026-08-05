@@ -16,6 +16,7 @@ const groupedSkills = d.skills.reduce((acc: Record<string, string[]>, skill) => 
 }, {});
 
 export const AI_MODEL = "llama-3.3-70b-versatile";
+export const FALLBACK_AI_MODEL = "llama-3.1-8b-instant";
 
 export const SYSTEM_PROMPT = `You are a professional AI assistant embedded in Mohibur Rahman Sani's portfolio website.
 Your name is "Portfolio Assistant". You help visitors learn about Mohibur, his skills, projects, experience, education, and contact information.

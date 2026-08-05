@@ -1,5 +1,5 @@
 import Groq from "groq-sdk";
-import { SYSTEM_PROMPT, AI_MODEL, GENERATION_CONFIG } from "@/src/app/lib/ai-config";
+import { SYSTEM_PROMPT, AI_MODEL, FALLBACK_AI_MODEL, GENERATION_CONFIG } from "@/src/app/lib/ai-config";
 
 export async function POST(request: Request) {
   try {
@@ -34,12 +34,37 @@ export async function POST(request: Request) {
 
     const groq = new Groq({ apiKey });
 
-    const stream = await groq.chat.completions.create({
-      model: AI_MODEL,
-      messages: groqMessages,
-      stream: true,
-      ...GENERATION_CONFIG,
-    });
+    let stream;
+    try {
+      stream = await groq.chat.completions.create({
+        model: AI_MODEL,
+        messages: groqMessages,
+        stream: true,
+        ...GENERATION_CONFIG,
+      });
+    } catch (initialError: unknown) {
+      const errorObj = initialError as { status?: number; message?: string };
+      const status = errorObj.status ?? 500;
+      const rawMessage = (errorObj.message ?? "").toLowerCase();
+
+      const isRateLimited =
+        status === 429 ||
+        rawMessage.includes("429") ||
+        rawMessage.includes("rate limit") ||
+        rawMessage.includes("quota");
+
+      if (isRateLimited) {
+        console.log(`Primary model rate-limited. Falling back to ${FALLBACK_AI_MODEL}...`);
+        stream = await groq.chat.completions.create({
+          model: FALLBACK_AI_MODEL,
+          messages: groqMessages,
+          stream: true,
+          ...GENERATION_CONFIG,
+        });
+      } else {
+        throw initialError;
+      }
+    }
 
     // Create a ReadableStream to stream the response to the client
     const readableStream = new ReadableStream({
