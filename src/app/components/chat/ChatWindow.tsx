@@ -118,15 +118,39 @@ export default function ChatWindow({ onClose }: ChatWindowProps) {
         );
       }
     } catch (error) {
+      console.error("Chat Error:", error);
       setIsLoading(false);
-      const errorMessage =
-        error instanceof Error ? error.message : "Something went wrong";
+
+      let friendlyMessage = "Something went wrong. Please try again.";
+
+      if (error instanceof Error) {
+        const msg = error.message.toLowerCase();
+
+        if (msg.includes("failed to fetch") || msg.includes("network error")) {
+          friendlyMessage = typeof navigator !== "undefined" && !navigator.onLine
+            ? "It looks like you're offline. Please check your internet connection and try again."
+            : "The AI assistant is temporarily unavailable. Please try again in a moment.";
+        } else if (msg.includes("timeout") || msg.includes("aborted") || error.name === "AbortError") {
+          friendlyMessage = "The request took too long. Please try again.";
+        } else if (msg.includes("rate-limited")) {
+          // Preserve our custom user-friendly API rate-limit message
+          friendlyMessage = error.message;
+        } else if (
+          msg.includes("no response stream") ||
+          msg.includes("api key") ||
+          msg.includes("configured") ||
+          msg.includes("failed to get response")
+        ) {
+          friendlyMessage = "The AI assistant is temporarily unavailable. Please try again in a moment.";
+        }
+      }
+
       setMessages((prev) => [
         ...prev,
         {
           id: generateId(),
           role: "assistant",
-          content: `Sorry, I encountered an error: ${errorMessage}. Please try again.`,
+          content: friendlyMessage,
           timestamp: new Date(),
         },
       ]);
